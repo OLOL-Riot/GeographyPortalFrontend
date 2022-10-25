@@ -16,6 +16,7 @@ const app = createApp(App);
 
 app.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here
+  lang: quasarLang,
 });
 
 app.use(router);
