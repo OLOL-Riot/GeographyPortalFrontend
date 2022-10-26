@@ -4,9 +4,16 @@ import { ref } from "vue";
 
 const $q = useQuasar();
 
-const name = ref(null);
+const firstName = ref(null);
+const lastName = ref(null);
+const login = ref(null);
+const email = ref(null);
+const password = ref(null);
+const confirmPassword = ref(null);
 const age = ref(null);
 const accept = ref(false);
+const openPwd = ref(false);
+const openConfirmPwd = ref(false);
 
 function onSubmit() {
   if (accept.value !== true) {
@@ -17,6 +24,8 @@ function onSubmit() {
       message: "You need to accept the license and terms first",
     });
   } else {
+    openPwd.value = false;
+    openConfirmPwd.value = false;
     $q.notify({
       color: "green-4",
       textColor: "white",
@@ -27,11 +36,15 @@ function onSubmit() {
 }
 
 function onReset() {
-  name.value = null;
+  firstName.value = null;
+  lastName.value = null;
+  login.value = null;
+  email.value = null;
   age.value = null;
   accept.value = false;
+  password.value = null;
+  confirmPassword.value = null;
 }
-
 </script>
 
 <template>
@@ -39,35 +52,90 @@ function onReset() {
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-input
         filled
-        v-model="name"
-        label="Your name *"
-        hint="Name and surname"
+        v-model="firstName"
+        label="Your first name *"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
 
       <q-input
         filled
-        type="number"
-        v-model="age"
-        label="Your age *"
+        v-model="lastName"
+        label="Your last name *"
         lazy-rules
-        :rules="[
-          (val) => (val !== null && val !== '') || 'Please type your age',
-          (val) => (val > 0 && val < 100) || 'Please type a real age',
-        ]"
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
+
+      <q-input
+        filled
+        v-model="login"
+        label="login *"
+        lazy-rules
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+      />
+
+      <q-input
+        filled
+        v-model="email"
+        label="Email *"
+        hint="Your email"
+        lazy-rules
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+      />
+
+      <q-input
+        filled
+        v-model="password"
+        label="Password"
+        hint="Your new password"
+        lazy-rules
+        :type="!openPwd ? 'password' : 'text'"
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+      >
+        <template v-slot:append>
+          <q-icon
+            :name="!openPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            v-on:click="openPwd = !openPwd"
+          ></q-icon>
+        </template>
+      </q-input>
+
+      <q-input
+        filled
+        v-model="confirmPassword"
+        label="Confirm password"
+        hint="Confirm your new password"
+        lazy-rules
+        :type="!openConfirmPwd ? 'password' : 'text'"
+        :rules="[
+          (val) => (val && val == password) || 'Please confirm password',
+        ]"
+      >
+        <template v-slot:append>
+          <q-icon
+            :name="!openConfirmPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            v-on:click="openConfirmPwd = !openConfirmPwd"
+          ></q-icon>
+        </template>
+      </q-input>
 
       <q-toggle v-model="accept" label="I accept the license and terms" />
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn
+          label="Submit"
+          class="full-width"
+          type="submit"
+          color="primary"
+        />
         <q-btn
           label="Reset"
           type="reset"
           color="primary"
           flat
-          class="q-ml-sm"
+          class="full-width q-mt-md"
         />
       </div>
     </q-form>
