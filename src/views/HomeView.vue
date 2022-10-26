@@ -49,7 +49,8 @@ function onReset() {
 
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <h4>Registration</h4>
+    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md q-mt-md">
       <q-input
         filled
         v-model="firstName"
@@ -125,7 +126,7 @@ function onReset() {
 
       <div>
         <q-btn
-          label="Submit"
+          label="Sing in"
           class="full-width"
           type="submit"
           color="red"
