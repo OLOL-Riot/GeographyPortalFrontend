@@ -125,12 +125,7 @@ function onReset() {
       <q-toggle v-model="accept" label="I accept the license and terms" />
 
       <div>
-        <q-btn
-          label="Sing in"
-          class="full-width"
-          type="submit"
-          color="red"
-        />
+        <q-btn label="Sing in" class="full-width" type="submit" color="red" />
         <q-btn
           label="Reset"
           type="reset"
