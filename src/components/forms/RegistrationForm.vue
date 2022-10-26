@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useQuasar } from "quasar";
 import { ref } from "vue";
+import { api } from '../../api'
 
 const $q = useQuasar();
 
@@ -26,6 +27,8 @@ function onSubmit() {
   } else {
     openPwd.value = false;
     openConfirmPwd.value = false;
+
+    api.get('/api/iblock/', { params: sendData })
     $q.notify({
       color: "green-4",
       textColor: "white",
