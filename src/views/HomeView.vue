@@ -128,12 +128,12 @@ function onReset() {
           label="Submit"
           class="full-width"
           type="submit"
-          color="primary"
+          color="red"
         />
         <q-btn
           label="Reset"
           type="reset"
-          color="primary"
+          color="red"
           flat
           class="full-width q-mt-md"
         />
