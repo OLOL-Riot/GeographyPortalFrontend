@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useQuasar } from "quasar";
 import { ref } from "vue";
+import axios from "axios";
 
 const $q = useQuasar();
 
@@ -18,12 +19,30 @@ function onSubmit() {
       message: "You need to accept the license and terms first",
     });
   } else {
-    $q.notify({
-      color: "green-4",
-      textColor: "white",
-      icon: "cloud_done",
-      message: "Submitted",
-    });
+    axios
+      .post("https://localhost:5242/api/Authentification/login", {
+        params: {
+          login: login,
+          password: password,
+        },
+      })
+      .then((response) => {
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Ok!",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.response.data.title,
+        });
+      });
   }
 }
 
