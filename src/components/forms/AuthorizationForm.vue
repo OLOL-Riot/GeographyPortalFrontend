@@ -20,11 +20,9 @@ function onSubmit() {
     });
   } else {
     axios
-      .post("https://localhost:5242/api/Authentification/login", {
-        params: {
-          login: login,
-          password: password,
-        },
+      .post("http://localhost:5242/api/Authentification/login", {
+        login: login.value,
+        password: password.value,
       })
       .then((response) => {
         $q.notify({

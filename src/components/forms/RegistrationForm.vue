@@ -33,31 +33,30 @@ function onSubmit() {
 
     axios
       .post("http://localhost:5242/api/Authentification/registration", {
-        params: {
-          firstName: firstName,
-          lastName: lastName,
-          login: login,
-          email: email,
-          password: password,
-          phoneNumber: phoneNumber,
-          confirmPassword: confirmPassword
-        },
+        firstName: firstName.value,
+        lastName: lastName.value,
+        login: login.value,
+        email: email.value,
+        password: password.value,
+        phoneNumber: phoneNumber.value,
+        confirmPassword: confirmPassword.value,
       })
       .then((response) => {
-          $q.notify({
-            color: "green-4",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Ok!",
-          });
-      }).catch(err=>{
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Ok!",
+        });
+      })
+      .catch((err) => {
         console.log(err);
         $q.notify({
-            color: "red-5",
-            textColor: "white",
-            icon: "warning",
-            message: err.response.data.title,
-          });
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.response.data.title,
+        });
       });
   }
 }
