@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useQuasar } from "quasar";
+import { useRouter, useRoute } from "vue-router";
 import { ref } from "vue";
 import axios from "axios";
 
 const $q = useQuasar();
+const $router = useRouter();
+const $route = useRoute();
 
 const login = ref(null);
 const password = ref(null);
@@ -31,6 +34,10 @@ function onSubmit() {
           icon: "cloud_done",
           message: "Ok!",
         });
+
+        localStorage.token = response.data.token;
+
+        $router.push({ name: "account" });
       })
       .catch((err) => {
         console.log(err);
