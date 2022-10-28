@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useQuasar } from "quasar";
 import { ref } from "vue";
-import { api } from '../../api'
+import axios from "axios";
+
+//import { api } from '../../api'
 
 const $q = useQuasar();
 
@@ -9,6 +11,7 @@ const firstName = ref(null);
 const lastName = ref(null);
 const login = ref(null);
 const email = ref(null);
+const phoneNumber = ref(null);
 const password = ref(null);
 const confirmPassword = ref(null);
 const age = ref(null);
@@ -28,13 +31,34 @@ function onSubmit() {
     openPwd.value = false;
     openConfirmPwd.value = false;
 
-    api.get('/api/iblock/', { params: sendData })
-    $q.notify({
-      color: "green-4",
-      textColor: "white",
-      icon: "cloud_done",
-      message: "Submitted",
-    });
+    axios
+      .post("http://localhost:5242/api/Authentification/registration", {
+        params: {
+          firstName: firstName,
+          lastName: lastName,
+          login: login,
+          email: email,
+          password: password,
+          phoneNumber: phoneNumber,
+          confirmPassword: confirmPassword
+        },
+      })
+      .then((response) => {
+          $q.notify({
+            color: "green-4",
+            textColor: "white",
+            icon: "cloud_done",
+            message: "Ok!",
+          });
+      }).catch(err=>{
+        console.log(err);
+        $q.notify({
+            color: "red-5",
+            textColor: "white",
+            icon: "warning",
+            message: err.response.data.title,
+          });
+      });
   }
 }
 
@@ -83,6 +107,15 @@ function onReset() {
         v-model="email"
         label="Email *"
         hint="Your email"
+        lazy-rules
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+      />
+
+      <q-input
+        filled
+        v-model="phoneNumber"
+        label="Phone number *"
+        hint="Your phone number"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
