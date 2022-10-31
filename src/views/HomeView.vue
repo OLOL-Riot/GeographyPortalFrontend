@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { getTestsList } from "./../api";
-
-
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <q-page padding>
+    <div class="container">
+    </div>
+  </q-page>
 </template>
