@@ -17,7 +17,7 @@ import HelloWorld from "./components/HelloWorld.vue";
       <HelloWorld msg="RL Portal" />
 
       <nav>
-        <RouterLink to="/">Sing in</RouterLink>
+        <RouterLink to="/">Sign Up</RouterLink>
         <RouterLink to="/login">Log in</RouterLink>
       </nav>
     </div>
