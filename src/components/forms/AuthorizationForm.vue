@@ -58,7 +58,7 @@ function onReset() {
 </script>
 
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
+  <q-card class="q-pa-md" style="max-width: 400px; width: 100%">
     <h4>Authorization</h4>
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md q-mt-md">
       <q-input
@@ -82,5 +82,5 @@ function onReset() {
         <q-btn label="Log in" class="full-width" type="submit" color="red" />
       </div>
     </q-form>
-  </div>
+  </q-card>
 </template>

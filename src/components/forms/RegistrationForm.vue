@@ -74,7 +74,7 @@ function onReset() {
 </script>
 
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
+  <q-card class="q-pa-md" style="max-width: 500px; width: 100%">
     <h4>Registration</h4>
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md q-mt-md">
       <q-input
@@ -170,5 +170,5 @@ function onReset() {
         />
       </div>
     </q-form>
-  </div>
+  </q-card>
 </template>

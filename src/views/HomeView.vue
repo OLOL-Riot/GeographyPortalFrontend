@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import RegistrationForm from "../components/forms/RegistrationForm.vue";
 </script>
 
 <template>
-  <main>
-    <RegistrationForm />
-  </main>
+  <q-page padding>
+    <div class="container">
+    </div>
+  </q-page>
 </template>

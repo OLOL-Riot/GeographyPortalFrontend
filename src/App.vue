@@ -1,91 +1,47 @@
 <script setup lang="ts">
+import { ref } from "@vue/reactivity";
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import RegistrationForm from "./components/forms/RegistrationForm.vue";
+import AuthorizationForm from "./components/forms/AuthorizationForm.vue";
+
+const modalReg = ref();
+const modalAuth = ref();
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.png"
-      width="125"
-      height="125"
-    />
+  <q-layout view="lhr lpR lFr">
+    <q-header
+      reveal
+      elevated
+      class="bg-red-7 text-white q-px-xl"
+      height-hint="98"
+    >
+      <q-toolbar>
+        <q-avatar>
+          <img src="@/assets/logo.png" />
+        </q-avatar>
 
-    <div class="wrapper">
-      <HelloWorld msg="RL Portal" />
+        <q-toolbar-title>RL Portal</q-toolbar-title>
+        <q-space />
+        <q-btn stretch flat label="Log In" @click="modalAuth = true"/>
+        <q-separator dark vertical />
+        <q-btn stretch flat label="Sign Up" @click="modalReg = true"/>
+      </q-toolbar>
+    </q-header>
 
-      <nav>
-        <RouterLink to="/">Sign Up</RouterLink>
-        <RouterLink to="/login">Log in</RouterLink>
-      </nav>
-    </div>
-  </header>
+    <q-page-container>
+      <RouterView />
+      
+      <q-dialog v-model="modalReg">
+        <RegistrationForm/>
+      </q-dialog>
 
-  <RouterView />
+      <q-dialog v-model="modalAuth">
+        <AuthorizationForm/>
+      </q-dialog>
+
+    </q-page-container>
+  </q-layout>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
+<style scoped></style>
