@@ -3,6 +3,13 @@ import { useQuasar } from "quasar";
 import { ref } from "vue";
 import axios from "axios";
 
+const props = defineProps({
+  successReg: {
+    type: Function,
+    default: () => {},
+  },
+});
+
 //import { api } from '../../api'
 
 const $q = useQuasar();
@@ -48,6 +55,8 @@ function onSubmit() {
           icon: "cloud_done",
           message: "Ok!",
         });
+
+        props.successReg();
       })
       .catch((err) => {
         console.log(err);

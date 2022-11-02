@@ -23,23 +23,29 @@ const modalAuth = ref();
 
         <q-toolbar-title>RL Portal</q-toolbar-title>
         <q-space />
-        <q-btn stretch flat label="Log In" @click="modalAuth = true"/>
+        <q-btn stretch flat label="Log In" @click="modalAuth = true" />
         <q-separator dark vertical />
-        <q-btn stretch flat label="Sign Up" @click="modalReg = true"/>
+        <q-btn stretch flat label="Sign Up" @click="modalReg = true" />
       </q-toolbar>
     </q-header>
 
     <q-page-container>
       <RouterView />
-      
+
       <q-dialog v-model="modalReg">
-        <RegistrationForm/>
+        <RegistrationForm
+          :successReg="
+            () => {
+              modalReg = false;
+              modalAuth = true;
+            }
+          "
+        />
       </q-dialog>
 
       <q-dialog v-model="modalAuth">
-        <AuthorizationForm/>
+        <AuthorizationForm />
       </q-dialog>
-
     </q-page-container>
   </q-layout>
 </template>
