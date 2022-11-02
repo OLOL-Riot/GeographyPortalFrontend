@@ -4,7 +4,7 @@ import { ref } from "vue";
 import axios from "axios";
 
 const props = defineProps({
-  successReg: {
+  success: {
     type: Function,
     default: (login: string, pass: string) => {},
   },
@@ -56,7 +56,7 @@ function onSubmit() {
           message: "Ok!",
         });
 
-        props.successReg(login.value, password.value);
+        props.success(login.value, password.value);
       })
       .catch((err) => {
         console.log(err);

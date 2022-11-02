@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { useQuasar } from "quasar";
 import { useRouter, useRoute } from "vue-router";
+import { LocalStorage } from "quasar";
 import { ref } from "vue";
+import type authToken from "../../interfaces/authToken";
 import axios from "axios";
 
 const props = defineProps({
   defaultLogin: String,
   defaultPassword: String,
+  success: {
+    type: Function,
+    default: () => {},
+  },
 });
 
 const $q = useQuasar();
@@ -43,9 +49,14 @@ function onSubmit() {
           message: "Ok!",
         });
 
-        localStorage.token = response.data.token;
+        LocalStorage.set("auth", <authToken>{
+          login: login.value,
+          token: response.data.token,
+        });
 
         $router.push({ name: "account" });
+
+        props.success();
       })
       .catch((err) => {
         console.log(err);
