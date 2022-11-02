@@ -6,7 +6,7 @@ import axios from "axios";
 const props = defineProps({
   successReg: {
     type: Function,
-    default: () => {},
+    default: (login: string, pass: string) => {},
   },
 });
 
@@ -56,7 +56,7 @@ function onSubmit() {
           message: "Ok!",
         });
 
-        props.successReg();
+        props.successReg(login.value, password.value);
       })
       .catch((err) => {
         console.log(err);

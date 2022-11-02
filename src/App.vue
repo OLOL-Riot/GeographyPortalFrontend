@@ -6,6 +6,8 @@ import AuthorizationForm from "./components/forms/AuthorizationForm.vue";
 
 const modalReg = ref();
 const modalAuth = ref();
+const regLogin = ref();
+const regPass = ref();
 </script>
 
 <template>
@@ -35,16 +37,19 @@ const modalAuth = ref();
       <q-dialog v-model="modalReg">
         <RegistrationForm
           :successReg="
-            () => {
+            (login: string, password: string) => {
               modalReg = false;
               modalAuth = true;
+
+              regLogin = login;
+              regPass = password;
             }
           "
         />
       </q-dialog>
 
       <q-dialog v-model="modalAuth">
-        <AuthorizationForm />
+        <AuthorizationForm :defaultLogin="regLogin" :defaultPassword="regPass"/>
       </q-dialog>
     </q-page-container>
   </q-layout>

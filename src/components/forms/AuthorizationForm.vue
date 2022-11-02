@@ -4,12 +4,20 @@ import { useRouter, useRoute } from "vue-router";
 import { ref } from "vue";
 import axios from "axios";
 
+const props = defineProps({
+  defaultLogin: String,
+  defaultPassword: String,
+});
+
 const $q = useQuasar();
 const $router = useRouter();
 const $route = useRoute();
 
-const login = ref(null);
-const password = ref(null);
+const login = ref();
+const password = ref();
+
+login.value = props.defaultLogin;
+password.value = props.defaultPassword;
 
 function onSubmit() {
   let result = true;
