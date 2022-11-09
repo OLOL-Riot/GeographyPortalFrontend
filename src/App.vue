@@ -5,10 +5,10 @@ import RegistrationForm from "./components/forms/RegistrationForm.vue";
 import AuthorizationForm from "./components/forms/AuthorizationForm.vue";
 import { LocalStorage } from "quasar";
 
-const modalReg = ref();
-const modalAuth = ref();
-const regLogin = ref();
-const regPass = ref();
+const modalReg = ref(false);
+const modalAuth = ref(false);
+const regLogin = ref("");
+const regPass = ref("");
 
 const $router = useRouter();
 
