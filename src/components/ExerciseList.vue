@@ -5,6 +5,7 @@ import { ref } from "vue";
 import type { AxiosError, AxiosResponse } from "axios";
 import type { ITest } from "@/interfaces/ITest";
 import { useQuasar } from "quasar";
+import type IVerifyTestPost from "@/interfaces/IVerifyTestPost";
 
 const props = defineProps({
   testId: String,
@@ -15,6 +16,8 @@ const api = getApi();
 
 const exerciseList = ref({} as IExerciseList);
 const test = ref({} as ITest);
+
+const answersByTest = ref({testId: props.testId, userAnsvers: Array()} as IVerifyTestPost);
 
 api
   .get("api/Test/solve/" + props.testId)
@@ -30,33 +33,6 @@ api
       icon: "warning",
       message: err.message,
     });
-
-    exerciseList.value = [
-      {
-        id: "",
-        description: "Задание 1",
-        serialNumber: 1,
-        answers: [
-          "Правильный вариант ответа",
-          "Неправильный вариант ответа 1",
-          "Неправильный вариант ответа 2",
-          "Неправильный вариант ответа 3",
-        ],
-        rightAnswer: "Правильный вариант ответа",
-      },
-      {
-        id: "",
-        description: "Задание 2",
-        serialNumber: 2,
-        answers: [
-          "Правильный вариант ответа",
-          "Неправильный вариант ответа 1",
-          "Неправильный вариант ответа 2",
-          "Неправильный вариант ответа 3",
-        ],
-        rightAnswer: "Правильный вариант ответа",
-      },
-    ];
   });
 
 function checkAnsver(answer: string, rightAnswer: string) {
@@ -88,9 +64,12 @@ function checkAnsver(answer: string, rightAnswer: string) {
         <q-separator />
 
         <q-card-actions vertical>
-          <q-btn flat v-for="option in exercise.answers" @click="checkAnsver(option, exercise.rightAnswer)">{{
-            option
-          }}</q-btn>
+          <q-btn
+            flat
+            v-for="option in exercise.answers"
+            @click="checkAnsver(option, exercise.rightAnswer)"
+            >{{ option }}</q-btn
+          >
         </q-card-actions>
       </q-card>
     </div>
