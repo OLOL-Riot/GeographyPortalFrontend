@@ -49,10 +49,10 @@ function onSubmit() {
           message: "Ok!",
         });
 
-        LocalStorage.set("auth", <authToken>{
+        LocalStorage.set("auth", {
           login: login.value,
           token: response.data.token,
-        });
+        } as authToken);
 
         $router.push({ name: "account" });
 
