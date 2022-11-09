@@ -58,6 +58,23 @@ api
       },
     ];
   });
+
+function checkAnsver(answer: string, rightAnswer: string) {
+  if (answer == rightAnswer)
+    $q.notify({
+      color: "green-5",
+      textColor: "white",
+      icon: "done",
+      message: "Правильный ответ!",
+    });
+  else
+    $q.notify({
+      color: "red-5",
+      textColor: "white",
+      icon: "warning",
+      message: "Ответ не верен",
+    });
+}
 </script>
 
 <template>
@@ -71,7 +88,9 @@ api
         <q-separator />
 
         <q-card-actions vertical>
-          <q-btn flat v-for="option in exercise.answers">{{ option }}</q-btn>
+          <q-btn flat v-for="option in exercise.answers" @click="checkAnsver(option, exercise.rightAnswer)">{{
+            option
+          }}</q-btn>
         </q-card-actions>
       </q-card>
     </div>
