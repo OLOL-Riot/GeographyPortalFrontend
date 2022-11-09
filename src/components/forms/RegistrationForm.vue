@@ -24,8 +24,8 @@ const password = ref("");
 const confirmPassword = ref("");
 const age = ref("");
 const accept = ref(false);
-const openPwd = ref("");
-const openConfirmPwd = ref("");
+const openPwd = ref(false);
+const openConfirmPwd = ref(false);
 
 function onSubmit() {
   if (accept.value !== true) {
@@ -36,8 +36,8 @@ function onSubmit() {
       message: "You need to accept the license and terms first",
     });
   } else {
-    openPwd.value = "";
-    openConfirmPwd.value = "";
+    openPwd.value = false;
+    openConfirmPwd.value = false;
 
     let regForm: IRegistrationPost = {
       firstName: firstName.value,
