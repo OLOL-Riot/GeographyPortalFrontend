@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
-import { RouterLink, RouterView, useRouter } from "vue-router";
-import RegistrationForm from "./components/forms/RegistrationForm.vue";
-import AuthorizationForm from "./components/forms/AuthorizationForm.vue";
+import { RouterView, useRouter } from "vue-router";
+import RegistrationForm from "@/components/forms/RegistrationForm.vue";
+import AuthorizationForm from "@/components/forms/AuthorizationForm.vue";
 import { LocalStorage } from "quasar";
+import type authToken from "@/interfaces/IAuthToken";
 
 const modalReg = ref(false);
 const modalAuth = ref(false);
 const regLogin = ref("");
 const regPass = ref("");
+
+const username = ref("");
 
 const $router = useRouter();
 
@@ -26,6 +29,15 @@ function exitFromAuth() {
   localStorage.removeItem("auth");
   checkAuth.value = false;
   $router.push({ name: "home" });
+}
+
+function toAccountPage() {
+  $router.push({ name: "account" });
+}
+
+function successAuth() {
+  checkAuth.value = true;
+  username.value = (LocalStorage.getItem("auth") as authToken).login;
 }
 </script>
 
@@ -50,7 +62,11 @@ function exitFromAuth() {
           <q-separator dark vertical />
           <q-btn stretch flat label="Sign Up" @click="modalReg = true" />
         </div>
-        <q-btn v-else stretch flat label="Log out" @click="exitFromAuth" />
+        <div class="flex" v-else>
+          <q-btn stretch flat :label="username" @click="toAccountPage()" />
+          <q-separator dark vertical />
+          <q-btn stretch flat label="Log out" @click="exitFromAuth" />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -65,7 +81,7 @@ function exitFromAuth() {
         <AuthorizationForm
           :defaultLogin="regLogin"
           :defaultPassword="regPass"
-          :success="() => (checkAuth = true)"
+          :success="successAuth"
         />
       </q-dialog>
     </q-page-container>

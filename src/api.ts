@@ -1,6 +1,6 @@
 import axios from "axios";
 import { LocalStorage } from "quasar";
-import type authToken from "./interfaces/authToken";
+import type IAuthToken from "./interfaces/IAuthToken";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -14,10 +14,10 @@ const getApi = () =>
   axios.create({
     headers: {
       post: {
-        Authorization: 'bearer ' + (<authToken>LocalStorage.getItem("auth")).token,
+        Authorization: 'bearer ' + (<IAuthToken>LocalStorage.getItem("auth")).token,
       },
       get: {
-        Authorization: 'bearer ' + (<authToken>LocalStorage.getItem("auth")).token,
+        Authorization: 'bearer ' + (<IAuthToken>LocalStorage.getItem("auth")).token,
       },
     },
     baseURL: baseurlsite + "/",

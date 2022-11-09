@@ -3,8 +3,9 @@ import { useQuasar } from "quasar";
 import { useRouter, useRoute } from "vue-router";
 import { LocalStorage } from "quasar";
 import { ref } from "vue";
-import type authToken from "../../interfaces/authToken";
-import axios from "axios";
+import type IAuthToken from "@/interfaces/IAuthToken";
+import axios, { AxiosError } from "axios";
+import type IRequestError from "@/interfaces/IRequestError";
 
 const props = defineProps({
   defaultLogin: String,
@@ -52,20 +53,28 @@ function onSubmit() {
         LocalStorage.set("auth", {
           login: login.value,
           token: response.data.token,
-        } as authToken);
+        } as IAuthToken);
 
         $router.push({ name: "account" });
 
         props.success();
       })
-      .catch((err) => {
+      .catch((err: AxiosError<IRequestError>) => {
         console.log(err);
-        $q.notify({
-          color: "red-5",
-          textColor: "white",
-          icon: "warning",
-          message: err.response.data.title,
-        });
+        if (typeof err.response !== "undefined")
+          $q.notify({
+            color: "red-5",
+            textColor: "white",
+            icon: "warning",
+            message: err.response.data.error,
+          });
+        else
+          $q.notify({
+            color: "red-5",
+            textColor: "white",
+            icon: "warning",
+            message: err.message,
+          });
       });
   }
 }

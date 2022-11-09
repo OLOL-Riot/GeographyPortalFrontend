@@ -1,4 +1,4 @@
-export default interface authToken {
+export default interface IAuthToken {
     token: string,
     login: string
 }
