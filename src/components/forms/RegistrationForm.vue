@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type IRegistrationPost from "@/interfaces/IRegistrationPost";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 import axios from "axios";
@@ -14,17 +15,17 @@ const props = defineProps({
 
 const $q = useQuasar();
 
-const firstName = ref(null);
-const lastName = ref(null);
-const login = ref(null);
-const email = ref(null);
-const phoneNumber = ref(null);
-const password = ref(null);
-const confirmPassword = ref(null);
-const age = ref(null);
+const firstName = ref("");
+const lastName = ref("");
+const login = ref("");
+const email = ref("");
+const phoneNumber = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const age = ref("");
 const accept = ref(false);
-const openPwd = ref(false);
-const openConfirmPwd = ref(false);
+const openPwd = ref("");
+const openConfirmPwd = ref("");
 
 function onSubmit() {
   if (accept.value !== true) {
@@ -35,19 +36,21 @@ function onSubmit() {
       message: "You need to accept the license and terms first",
     });
   } else {
-    openPwd.value = false;
-    openConfirmPwd.value = false;
+    openPwd.value = "";
+    openConfirmPwd.value = "";
+
+    let regForm: IRegistrationPost = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      login: login.value,
+      email: email.value,
+      password: password.value,
+      phoneNumber: phoneNumber.value,
+      confirmPassword: confirmPassword.value,
+    };
 
     axios
-      .post("http://localhost:5242/api/Authentification/registration", {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        login: login.value,
-        email: email.value,
-        password: password.value,
-        phoneNumber: phoneNumber.value,
-        confirmPassword: confirmPassword.value,
-      })
+      .post("http://localhost:5242/api/Authentification/registration", regForm)
       .then((response) => {
         $q.notify({
           color: "green-4",
@@ -71,14 +74,14 @@ function onSubmit() {
 }
 
 function onReset() {
-  firstName.value = null;
-  lastName.value = null;
-  login.value = null;
-  email.value = null;
-  age.value = null;
+  firstName.value = "";
+  lastName.value = "";
+  login.value = "";
+  email.value = "";
+  age.value = "";
   accept.value = false;
-  password.value = null;
-  confirmPassword.value = null;
+  password.value = "";
+  confirmPassword.value = "";
 }
 </script>
 
