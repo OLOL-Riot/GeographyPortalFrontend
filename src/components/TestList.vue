@@ -2,7 +2,7 @@
 import type { ITestList } from "@/interfaces/ITest";
 import { getApi } from "@/api";
 import { ref } from "vue";
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
 
@@ -12,62 +12,20 @@ const tests = ref({} as ITestList);
 
 const $q = useQuasar();
 const $router = useRouter();
-const $route = useRoute();
 
-api.get("api/Test/solve").then((response: AxiosResponse<ITestList>) => {
-  tests.value = [
-    ...response.data,
-    {
-      id: "1",
-      name: "Проверочный тест 1",
-      exercises: [
-        {
-          id: "",
-          description: "Задание 1",
-          serialNumber: 1,
-          answers: [
-            "Правильный вариант ответа",
-            "Неправильный вариант ответа 1",
-            "Неправильный вариант ответа 2",
-            "Неправильный вариант ответа 3",
-          ],
-          rightAnswer: "Правильный вариант ответа",
-        },
-        {
-          id: "",
-          description: "Задание 2",
-          serialNumber: 2,
-          answers: [
-            "Правильный вариант ответа",
-            "Неправильный вариант ответа 1",
-            "Неправильный вариант ответа 2",
-            "Неправильный вариант ответа 3",
-          ],
-          rightAnswer: "Правильный вариант ответа",
-        },
-      ],
-    },
-    {
-      id: "2",
-
-      name: "Проверочный тест 2",
-      exercises: [
-        {
-          id: "",
-          description: "Задание 3",
-          serialNumber: 3,
-          answers: [
-            "Правильный вариант ответа",
-            "Неправильный вариант ответа 1",
-            "Неправильный вариант ответа 2",
-            "Неправильный вариант ответа 3",
-          ],
-          rightAnswer: "Правильный вариант ответа",
-        },
-      ],
-    },
-  ];
-});
+api
+  .get("api/Test/solve")
+  .then((response: AxiosResponse<ITestList>) => {
+    tests.value = response.data;
+  })
+  .catch((err: AxiosError) => {
+    $q.notify({
+      color: "red-5",
+      textColor: "white",
+      icon: "warning",
+      message: err.message,
+    });
+  });
 </script>
 
 <template>
