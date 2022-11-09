@@ -2,23 +2,78 @@
 import type { IExerciseList } from "@/interfaces/IExercise";
 import { getApi } from "@/api";
 import { ref } from "vue";
+import type { AxiosError, AxiosResponse } from "axios";
+import type { ITest } from "@/interfaces/ITest";
+import { useQuasar } from "quasar";
 
+const props = defineProps({
+  testId: String,
+});
+
+const $q = useQuasar();
 const api = getApi();
 
-const exercises = ref({} as IExerciseList);
+const exerciseList = ref({} as IExerciseList);
+const test = ref({} as ITest);
 
-api.get("api/Exercise/solve").then((response) => {
-  exercises.value = response.data;
-});
+api
+  .get("api/Test/solve/" + props.testId)
+  .then((response: AxiosResponse<ITest>) => {
+    test.value = response.data;
+
+    exerciseList.value = [...response.data.exercises];
+  })
+  .catch((err: AxiosError) => {
+    $q.notify({
+      color: "red-5",
+      textColor: "white",
+      icon: "warning",
+      message: err.message,
+    });
+
+    exerciseList.value = [
+      {
+        id: "",
+        description: "Задание 1",
+        serialNumber: 1,
+        answers: [
+          "Правильный вариант ответа",
+          "Неправильный вариант ответа 1",
+          "Неправильный вариант ответа 2",
+          "Неправильный вариант ответа 3",
+        ],
+        rightAnswer: "Правильный вариант ответа",
+      },
+      {
+        id: "",
+        description: "Задание 2",
+        serialNumber: 2,
+        answers: [
+          "Правильный вариант ответа",
+          "Неправильный вариант ответа 1",
+          "Неправильный вариант ответа 2",
+          "Неправильный вариант ответа 3",
+        ],
+        rightAnswer: "Правильный вариант ответа",
+      },
+    ];
+  });
 </script>
 
 <template>
-  <div class="q-pa-md row items-start q-gutter-md q-mt-xl">
-    <!--<q-btn
-      color="primary"
-      :label="item.description"
-      v-for="item in exercises"
-      :key="item.serialNumber"
-    />-->
+  <div class="container">
+    <div class="q-pa-md row items-start q-gutter-md">
+      <q-card class="my-card" v-for="exercise in exerciseList">
+        <q-card-section>
+          <div class="text-h6">{{ exercise.description }}</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions vertical>
+          <q-btn flat v-for="option in exercise.answers">{{ option }}</q-btn>
+        </q-card-actions>
+      </q-card>
+    </div>
   </div>
 </template>
