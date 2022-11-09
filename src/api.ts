@@ -14,10 +14,12 @@ const getApi = () =>
   axios.create({
     headers: {
       post: {
-        Authorization: 'bearer ' + (<IAuthToken>LocalStorage.getItem("auth")).token,
+        Authorization:
+          "bearer " + (<IAuthToken>LocalStorage.getItem("auth")).token,
       },
       get: {
-        Authorization: 'bearer ' + (<IAuthToken>LocalStorage.getItem("auth")).token,
+        Authorization:
+          "bearer " + (<IAuthToken>LocalStorage.getItem("auth")).token,
       },
     },
     baseURL: baseurlsite + "/",

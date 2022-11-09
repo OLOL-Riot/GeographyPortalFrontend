@@ -1,19 +1,11 @@
 <script setup lang="ts">
+import type { IExerciseList } from "@/interfaces/IExercise";
 import { getApi } from "@/api";
 import { ref } from "vue";
 
 const api = getApi();
 
-interface IExercise {
-  ansvers: Array<string>;
-  description: string;
-  id: string;
-  serialNumber: number;
-}
-
-interface IExerciseList extends Array<IExercise> {}
-
-const exercises = ref(Array<IExercise>);
+const exercises = ref({} as IExerciseList);
 
 api.get("api/Exercise/solve").then((response) => {
   exercises.value = response.data;

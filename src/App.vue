@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "@vue/reactivity";
+import { ref } from "vue";
 import { RouterView, useRouter } from "vue-router";
 import RegistrationForm from "@/components/forms/RegistrationForm.vue";
 import AuthorizationForm from "@/components/forms/AuthorizationForm.vue";
@@ -11,7 +11,7 @@ const modalAuth = ref(false);
 const regLogin = ref("");
 const regPass = ref("");
 
-const username = ref("");
+const username = ref((LocalStorage.getItem("auth") as authToken).login);
 
 const $router = useRouter();
 
