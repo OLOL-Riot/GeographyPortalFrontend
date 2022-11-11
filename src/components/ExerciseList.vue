@@ -5,10 +5,17 @@ import { ref } from "vue";
 import type { AxiosError, AxiosResponse } from "axios";
 import type { ITest } from "@/interfaces/ITest";
 import { useQuasar } from "quasar";
-import type IVerifyTestPost from "@/interfaces/IVerifyTestPost";
+import type {
+  IVerifyExercisePost,
+  IVerifyTestPost,
+} from "@/interfaces/IVerifyTestPost";
+import type { IVerifyTestResponse } from "@/interfaces/IVerifyTestResponse";
 
 const props = defineProps({
-  testId: String,
+  testId: {
+    type: String,
+    required: true,
+  },
 });
 
 const $q = useQuasar();
@@ -17,14 +24,18 @@ const api = getApi();
 const exerciseList = ref({} as IExerciseList);
 const test = ref({} as ITest);
 
-const answersByTest = ref({testId: props.testId, userAnsvers: Array()} as IVerifyTestPost);
+interface IAnswersToExercisesArray {
+  [index: string]: string;
+}
+
+const answersByExercises = ref({} as IAnswersToExercisesArray);
 
 api
   .get("api/Test/solve/" + props.testId)
   .then((response: AxiosResponse<ITest>) => {
     test.value = response.data;
 
-    exerciseList.value = [...response.data.exercises];
+    exerciseList.value = response.data.exercises;
   })
   .catch((err: AxiosError) => {
     $q.notify({
@@ -35,20 +46,39 @@ api
     });
   });
 
-function checkAnsver(answer: string, rightAnswer: string) {
-  if (answer == rightAnswer)
-    $q.notify({
-      color: "green-5",
-      textColor: "white",
-      icon: "done",
-      message: "Правильный ответ!",
+function toEntries<T>(a: T[]) {
+  return a.map((value, index) => [index, value] as const);
+}
+
+function checkAnsver() {
+  let postData = {} as IVerifyTestPost;
+
+  postData.testId = props.testId;
+
+  for (let exercise of exerciseList.value) {
+    postData.userAnsvers.push({
+      id: exercise.id,
+      choseAnswer: answersByExercises.value[exercise.id],
     });
-  else
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: "Ответ не верен",
+  }
+
+  api
+    .post("api/VerifiedTest/", postData)
+    .then((response: AxiosResponse<IVerifyTestResponse>) => {
+      if (response.data.points == response.data.maxPoints)
+        $q.notify({
+          color: "green-5",
+          textColor: "white",
+          icon: "done",
+          message: "Правильный ответ!",
+        });
+      else
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: "Ответ не верен",
+        });
     });
 }
 </script>
@@ -63,15 +93,18 @@ function checkAnsver(answer: string, rightAnswer: string) {
 
         <q-separator />
 
-        <q-card-actions vertical>
-          <q-btn
-            flat
+        <div class="q-gutter-sm">
+          <q-radio
             v-for="option in exercise.answers"
-            @click="checkAnsver(option, exercise.rightAnswer)"
-            >{{ option }}</q-btn
-          >
-        </q-card-actions>
+            v-model="answersByExercises[exercise.id]"
+            :val="option"
+            :label="option"
+          />
+        </div>
       </q-card>
+    </div>
+    <div class="row">
+      <q-btn color="primary" label="Отправить" @click="checkAnsver()" />
     </div>
   </div>
 </template>
