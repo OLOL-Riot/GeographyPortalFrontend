@@ -28,7 +28,12 @@ interface IAnswersToExercisesArray {
   [index: string]: string;
 }
 
+interface IAnswersStatus {
+  [index: string]: "red" | "green" | "blue";
+}
+
 const answersByExercises = ref({} as IAnswersToExercisesArray);
+const answersStatus = ref({} as IAnswersStatus);
 
 api
   .get("api/Test/solve/" + props.testId)
@@ -36,6 +41,10 @@ api
     test.value = response.data;
 
     exerciseList.value = response.data.exercises;
+
+    response.data.exercises.forEach((exercise) => {
+      answersStatus.value[exercise.id] = "blue";
+    });
   })
   .catch((err: AxiosError) => {
     $q.notify({
@@ -46,10 +55,6 @@ api
     });
   });
 
-function toEntries<T>(a: T[]) {
-  return a.map((value, index) => [index, value] as const);
-}
-
 function checkAnsver() {
   let postData = {} as IVerifyTestPost;
 
@@ -57,6 +62,16 @@ function checkAnsver() {
   postData.userAnswers = [];
 
   for (let exercise of exerciseList.value) {
+    if (typeof answersByExercises.value[exercise.id] == "undefined") {
+      $q.notify({
+        color: "red-5",
+        textColor: "white",
+        icon: "warning",
+        message: "Необходимо ответить на все вопросы!",
+      });
+      return;
+    }
+
     postData.userAnswers.push({
       exerciseId: exercise.id,
       chosenAnswer: answersByExercises.value[exercise.id],
@@ -66,6 +81,12 @@ function checkAnsver() {
   api
     .post("api/VerifiedTest/", postData)
     .then((response: AxiosResponse<IVerifyTestResponse>) => {
+      response.data.verifiedAnswers.forEach((question) => {
+        if (question.isRight)
+          answersStatus.value[question.exerciseId] = "green";
+        else answersStatus.value[question.exerciseId] = "red";
+      });
+
       if (response.data.points == response.data.maxPoints)
         $q.notify({
           color: "green-5",
@@ -98,9 +119,11 @@ function checkAnsver() {
           <q-radio
             class="q-pr-md"
             v-for="option in exercise.answers"
+            :color="answersStatus[exercise.id]"
             v-model="answersByExercises[exercise.id]"
             :val="option"
             :label="option"
+            @click="answersStatus[exercise.id] = 'blue'"
           />
         </div>
       </q-card>
