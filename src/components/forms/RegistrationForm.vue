@@ -13,6 +13,10 @@ const props = defineProps({
 
 //import { api } from '../../api'
 
+const specChargins = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+const mailFormat = /@\w+\.\w+/;
+const numbers = /\d/;
+
 const $q = useQuasar();
 
 const firstName = ref("");
@@ -119,7 +123,10 @@ function onReset() {
         label="Email *"
         hint="Your email"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[
+          (val) => (val && val.length > 0) || 'Please type something',
+          (val) => (mailFormat.test(val)) || 'Неверный формат почты',
+        ]"
       />
 
       <q-input
@@ -138,7 +145,15 @@ function onReset() {
         hint="Your new password"
         lazy-rules
         :type="!openPwd ? 'password' : 'text'"
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[
+          (val) => (val && val.length > 0) || 'Введите пароль',
+          (val) =>
+            val.length >= 8 || 'Длина пароля должна быть не меньше 8 символов',
+          (val) =>
+            specChargins.test(val) ||
+            'В пароле должны присутствовать спецсимволы',
+          (val) => numbers.test(val) || 'Пароль должен содержать цифры',
+        ]"
       >
         <template v-slot:append>
           <q-icon
