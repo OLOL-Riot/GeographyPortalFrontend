@@ -55,7 +55,7 @@ function checkAnsver() {
 
   postData.testId = props.testId;
   postData.userAnswers = [];
-  
+
   for (let exercise of exerciseList.value) {
     postData.userAnswers.push({
       exerciseId: exercise.id,
@@ -71,17 +71,15 @@ function checkAnsver() {
           color: "green-5",
           textColor: "white",
           icon: "done",
-          message: "Правильный ответ!",
-        });
-      else
-        $q.notify({
-          color: "red-5",
-          textColor: "white",
-          icon: "warning",
-          message: "Ответ не верен",
+          message: "Абсолютно верно!",
         });
 
-        
+      $q.notify({
+        color: "blue-5",
+        textColor: "white",
+        icon: "done",
+        message: `Вы набрали ${response.data.points} из ${response.data.maxPoints} баллов`,
+      });
     });
 }
 </script>
