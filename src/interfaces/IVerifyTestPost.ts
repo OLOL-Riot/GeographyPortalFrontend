@@ -1,9 +1,9 @@
 export interface IVerifyExercisePost {
   id: string;
-  choseAnswer: string;
+  chosenAnswer: string;
 }
 
 export interface IVerifyTestPost {
   testId: string;
-  userAnsvers: Array<IVerifyExercisePost>;
+  userAnswers: Array<IVerifyExercisePost>;
 }

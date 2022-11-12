@@ -54,11 +54,12 @@ function checkAnsver() {
   let postData = {} as IVerifyTestPost;
 
   postData.testId = props.testId;
-
+  postData.userAnswers = [];
+  
   for (let exercise of exerciseList.value) {
-    postData.userAnsvers.push({
+    postData.userAnswers.push({
       id: exercise.id,
-      choseAnswer: answersByExercises.value[exercise.id],
+      chosenAnswer: answersByExercises.value[exercise.id],
     });
   }
 
@@ -93,7 +94,7 @@ function checkAnsver() {
 
         <q-separator />
 
-        <div class="q-gutter-sm">
+        <div class="q-gutter-sm flex column q-pr-md">
           <q-radio
             v-for="option in exercise.answers"
             v-model="answersByExercises[exercise.id]"
@@ -103,8 +104,8 @@ function checkAnsver() {
         </div>
       </q-card>
     </div>
-    <div class="row">
-      <q-btn color="primary" label="Отправить" @click="checkAnsver()" />
+    <div class="row q-pa-md">
+      <q-btn color="primary" label="Проверить" @click="checkAnsver()" />
     </div>
   </div>
 </template>
