@@ -125,7 +125,7 @@ function onReset() {
         lazy-rules
         :rules="[
           (val) => (val && val.length > 0) || 'Please type something',
-          (val) => (mailFormat.test(val)) || 'Неверный формат почты',
+          (val) => mailFormat.test(val) || 'Неверный формат почты',
         ]"
       />
 
@@ -153,6 +153,7 @@ function onReset() {
             specChargins.test(val) ||
             'В пароле должны присутствовать спецсимволы',
           (val) => numbers.test(val) || 'Пароль должен содержать цифры',
+          (val) => val.toUpperCase() != val && val.toLowerCase() != val || 'Пароль должен содержать символы в разном регистре',
         ]"
       >
         <template v-slot:append>
