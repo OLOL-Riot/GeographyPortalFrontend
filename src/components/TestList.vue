@@ -29,7 +29,7 @@ api
 </script>
 
 <template>
-  <div class="q-pa-md row items-start q-gutter-md q-mt-xl">
+  <div class="q-py-md q-px-sm row items-start q-gutter-md q-mt-xl">
     <q-btn
       color="primary"
       :label="item.name"

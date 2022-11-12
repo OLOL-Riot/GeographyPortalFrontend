@@ -1,5 +1,5 @@
 export interface IVerifyExercisePost {
-  id: string;
+  exerciseId: string;
   chosenAnswer: string;
 }
 

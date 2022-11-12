@@ -58,7 +58,7 @@ function checkAnsver() {
   
   for (let exercise of exerciseList.value) {
     postData.userAnswers.push({
-      id: exercise.id,
+      exerciseId: exercise.id,
       chosenAnswer: answersByExercises.value[exercise.id],
     });
   }
@@ -80,6 +80,8 @@ function checkAnsver() {
           icon: "warning",
           message: "Ответ не верен",
         });
+
+        
     });
 }
 </script>
@@ -94,8 +96,9 @@ function checkAnsver() {
 
         <q-separator />
 
-        <div class="q-gutter-sm flex column q-pr-md">
+        <div class="q-gutter-sm flex column q-py-sm">
           <q-radio
+            class="q-pr-md"
             v-for="option in exercise.answers"
             v-model="answersByExercises[exercise.id]"
             :val="option"
