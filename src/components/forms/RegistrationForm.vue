@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type IRegistrationPost from "@/interfaces/IRegistrationPost";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 import axios from "axios";
 
 const props = defineProps({
-  successReg: {
+  success: {
     type: Function,
     default: (login: string, pass: string) => {},
   },
@@ -12,16 +13,20 @@ const props = defineProps({
 
 //import { api } from '../../api'
 
+const specChargins = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+const mailFormat = /@\w+\.\w+/;
+const numbers = /\d/;
+
 const $q = useQuasar();
 
-const firstName = ref(null);
-const lastName = ref(null);
-const login = ref(null);
-const email = ref(null);
-const phoneNumber = ref(null);
-const password = ref(null);
-const confirmPassword = ref(null);
-const age = ref(null);
+const firstName = ref("");
+const lastName = ref("");
+const login = ref("");
+const email = ref("");
+const phoneNumber = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const age = ref("");
 const accept = ref(false);
 const openPwd = ref(false);
 const openConfirmPwd = ref(false);
@@ -38,16 +43,18 @@ function onSubmit() {
     openPwd.value = false;
     openConfirmPwd.value = false;
 
+    let regForm: IRegistrationPost = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      login: login.value,
+      email: email.value,
+      password: password.value,
+      phoneNumber: phoneNumber.value,
+      confirmPassword: confirmPassword.value,
+    };
+
     axios
-      .post("http://localhost:5242/api/Authentification/registration", {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        login: login.value,
-        email: email.value,
-        password: password.value,
-        phoneNumber: phoneNumber.value,
-        confirmPassword: confirmPassword.value,
-      })
+      .post("http://localhost:5242/api/Authentification/registration", regForm)
       .then((response) => {
         $q.notify({
           color: "green-4",
@@ -56,7 +63,7 @@ function onSubmit() {
           message: "Ok!",
         });
 
-        props.successReg(login.value, password.value);
+        props.success(login.value, password.value);
       })
       .catch((err) => {
         console.log(err);
@@ -71,14 +78,14 @@ function onSubmit() {
 }
 
 function onReset() {
-  firstName.value = null;
-  lastName.value = null;
-  login.value = null;
-  email.value = null;
-  age.value = null;
+  firstName.value = "";
+  lastName.value = "";
+  login.value = "";
+  email.value = "";
+  age.value = "";
   accept.value = false;
-  password.value = null;
-  confirmPassword.value = null;
+  password.value = "";
+  confirmPassword.value = "";
 }
 </script>
 
@@ -116,7 +123,10 @@ function onReset() {
         label="Email *"
         hint="Your email"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[
+          (val) => (val && val.length > 0) || 'Please type something',
+          (val) => mailFormat.test(val) || 'Неверный формат почты',
+        ]"
       />
 
       <q-input
@@ -135,7 +145,16 @@ function onReset() {
         hint="Your new password"
         lazy-rules
         :type="!openPwd ? 'password' : 'text'"
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[
+          (val) => (val && val.length > 0) || 'Введите пароль',
+          (val) =>
+            val.length >= 8 || 'Длина пароля должна быть не меньше 8 символов',
+          (val) =>
+            specChargins.test(val) ||
+            'В пароле должны присутствовать спецсимволы',
+          (val) => numbers.test(val) || 'Пароль должен содержать цифры',
+          (val) => val.toUpperCase() != val && val.toLowerCase() != val || 'Пароль должен содержать символы в разном регистре',
+        ]"
       >
         <template v-slot:append>
           <q-icon
