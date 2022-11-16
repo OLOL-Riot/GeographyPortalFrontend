@@ -35,6 +35,9 @@ interface IAnswersStatus {
 const answersByExercises = ref({} as IAnswersToExercisesArray);
 const answersStatus = ref({} as IAnswersStatus);
 
+const result = ref('');
+const resultShow = ref(false);
+
 api
   .get("api/Test/solve/" + props.testId)
   .then((response: AxiosResponse<ITest>) => {
@@ -94,21 +97,24 @@ function checkAnsver() {
           icon: "done",
           message: "Абсолютно верно!",
         });
-
+        /*
       $q.notify({
         color: "blue-5",
         textColor: "white",
         icon: "done",
         message: `Вы набрали ${response.data.points} из ${response.data.maxPoints} баллов`,
-      });
+      });*/
+
+      result.value = `Вы набрали ${response.data.points} из ${response.data.maxPoints} баллов`;
+      resultShow.value = true;
     });
 }
 </script>
 
 <template>
   <div class="container">
-    <div class="q-pa-md row items-start q-gutter-md">
-      <q-card class="my-card" v-for="exercise in exerciseList">
+    <div class="q-pa-md column justify-center items-center q-gutter-md">
+      <q-card class="my-card " v-for="exercise in exerciseList">
         <q-card-section>
           <div class="text-h6">{{ exercise.description }}</div>
         </q-card-section>
@@ -129,7 +135,21 @@ function checkAnsver() {
       </q-card>
     </div>
     <div class="row q-pa-md">
-      <q-btn color="primary" label="Проверить" @click="checkAnsver()" />
+      <q-btn class="q-mx-auto" color="primary" label="Отправить тест на проверку" @click="checkAnsver()" />
+    </div>
+    <div class="result" :class="!resultShow? 'hidden' : ''">
+      {{result}}
     </div>
   </div>
 </template>
+
+<style scoped>
+.my-card {
+  min-width: 400px;
+}
+
+.result {
+  width: max-content;
+  margin-inline: auto;
+}
+</style>
