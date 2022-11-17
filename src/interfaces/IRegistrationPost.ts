@@ -5,5 +5,4 @@ export default interface IRegistrationPost {
   email: string;
   password: string;
   phoneNumber: string;
-  confirmPassword: string;
 }
