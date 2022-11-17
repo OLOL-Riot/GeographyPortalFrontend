@@ -140,6 +140,7 @@ function checkAnsver() {
         color="primary"
         label="Отправить тест на проверку"
         @click="checkAnsver()"
+        :disable="solutionSent"
       />
     </div>
     <div class="result" :class="!solutionSent ? 'hidden' : ''">
