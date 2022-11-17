@@ -1,6 +1,6 @@
 export interface IVerifyExercisePost {
   exerciseId: string;
-  chosenAnswer: string;
+  chosenAnswer: string | null;
 }
 
 export interface IVerifyTestPost {
