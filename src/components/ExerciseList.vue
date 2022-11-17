@@ -65,19 +65,11 @@ function checkAnsver() {
   postData.userAnswers = [];
 
   for (let exercise of exerciseList.value) {
-    if (typeof answersByExercises.value[exercise.id] == "undefined") {
-      $q.notify({
-        color: "red-5",
-        textColor: "white",
-        icon: "warning",
-        message: "Необходимо ответить на все вопросы!",
-      });
-      return;
-    }
+    const chosenAnswer = answersByExercises.value[exercise.id];
 
     postData.userAnswers.push({
       exerciseId: exercise.id,
-      chosenAnswer: answersByExercises.value[exercise.id],
+      chosenAnswer: typeof chosenAnswer != 'undefined' ? chosenAnswer : null,
     });
   }
 
