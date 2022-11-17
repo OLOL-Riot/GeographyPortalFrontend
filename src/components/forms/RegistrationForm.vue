@@ -49,8 +49,7 @@ function onSubmit() {
       login: login.value,
       email: email.value,
       password: password.value,
-      phoneNumber: phoneNumber.value,
-      confirmPassword: confirmPassword.value,
+      phoneNumber: phoneNumber.value
     };
 
     axios
