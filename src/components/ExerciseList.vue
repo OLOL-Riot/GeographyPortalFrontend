@@ -35,8 +35,8 @@ interface IAnswersStatus {
 const answersByExercises = ref({} as IAnswersToExercisesArray);
 const answersStatus = ref({} as IAnswersStatus);
 
-const result = ref('');
-const resultShow = ref(false);
+const result = ref("");
+const solutionSent = ref(false);
 
 api
   .get("api/Test/solve/" + props.testId)
@@ -97,7 +97,7 @@ function checkAnsver() {
           icon: "done",
           message: "Абсолютно верно!",
         });
-        /*
+      /*
       $q.notify({
         color: "blue-5",
         textColor: "white",
@@ -106,7 +106,7 @@ function checkAnsver() {
       });*/
 
       result.value = `Вы набрали ${response.data.points} из ${response.data.maxPoints} баллов`;
-      resultShow.value = true;
+      solutionSent.value = true;
     });
 }
 </script>
@@ -114,7 +114,7 @@ function checkAnsver() {
 <template>
   <div class="container">
     <div class="q-pa-md column justify-center items-center q-gutter-md">
-      <q-card class="my-card " v-for="exercise in exerciseList">
+      <q-card class="my-card" v-for="exercise in exerciseList">
         <q-card-section>
           <div class="text-h6">{{ exercise.description }}</div>
         </q-card-section>
@@ -135,10 +135,15 @@ function checkAnsver() {
       </q-card>
     </div>
     <div class="row q-pa-md">
-      <q-btn class="q-mx-auto" color="primary" label="Отправить тест на проверку" @click="checkAnsver()" />
+      <q-btn
+        class="q-mx-auto"
+        color="primary"
+        label="Отправить тест на проверку"
+        @click="checkAnsver()"
+      />
     </div>
-    <div class="result" :class="!resultShow? 'hidden' : ''">
-      {{result}}
+    <div class="result" :class="!solutionSent ? 'hidden' : ''">
+      {{ result }}
     </div>
   </div>
 </template>
