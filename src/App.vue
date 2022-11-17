@@ -11,7 +11,11 @@ const modalAuth = ref(false);
 const regLogin = ref("");
 const regPass = ref("");
 
-const username = ref((LocalStorage.getItem("auth") as authToken).login);
+const username = ref(
+  LocalStorage.getItem("auth")
+    ? (LocalStorage.getItem("auth") as authToken).login
+    : ""
+);
 
 const $router = useRouter();
 
