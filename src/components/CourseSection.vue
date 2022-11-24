@@ -57,7 +57,6 @@ theory.value = pageCourseSection.value.theory;
 testId.value = pageCourseSection.value.testId;
 */
 
-
 api
   .get("/api/CourseSection/page/" + props.courseSectionId)
   .then((response: AxiosResponse<IPageCourseSection>) => {
@@ -80,19 +79,17 @@ api
 <template>
   <div class="container ">
     <div class="page-course-section-title">
-      <div class="text-h4">{{ pageCourseSection.name }}</div>
-      <p>{{ pageCourseSection.shortDescription }}</p>
+      <div class="text-h4 q-pb-md">{{ pageCourseSection.name }}</div>
+      <div class="text-body1 q-pb-md">{{ pageCourseSection.shortDescription }}</div>
     </div>
 
     <q-card flat bordered class="theory-card">
-      <q-card-section>
-        <div class="text-h5">{{ theory.name }}</div>
+      <q-card-section class="q-py-md">
+        <div class="text-h5 absolute-center">{{ theory.name }}</div>
       </q-card-section>
-      <q-card-section class="q-pt-none">
-        {{ theory.description }}
+      <q-card-section class="q-pb-md">
+        <div class="text-body1  absolute-center">{{ theory.description }}</div>
       </q-card-section>
-
-
 
       <q-card-section class="theory-section-card" v-for="theorySection in theory.theorySections">
         <q-separator />
@@ -110,9 +107,8 @@ api
         @click="$router.push({ name: 'test', params: { testId: testId } })" />
     </div>
 
-    <div class="row q-pa-md">
-      <q-btn class="q-mx-auto" color="grey" label="Назад"
-        @click="$router.back()" />
+    <div class="row q-pa-none">
+      <q-btn class="q-mx-auto" color="grey" label="Назад" @click="$router.back()" />
     </div>
   </div>
 </template>
