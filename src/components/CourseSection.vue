@@ -109,6 +109,11 @@ api
       <q-btn class="q-mx-auto" color="green" label="Перейти к тесту"
         @click="$router.push({ name: 'test', params: { testId: testId } })" />
     </div>
+
+    <div class="row q-pa-md">
+      <q-btn class="q-mx-auto" color="grey" label="Назад"
+        @click="$router.back()" />
+    </div>
   </div>
 </template>
 
