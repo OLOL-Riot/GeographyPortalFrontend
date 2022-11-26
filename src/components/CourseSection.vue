@@ -57,6 +57,7 @@ theory.value = pageCourseSection.value.theory;
 testId.value = pageCourseSection.value.testId;
 */
 
+
 api
   .get("/api/CourseSection/page/" + props.courseSectionId)
   .then((response: AxiosResponse<IPageCourseSection>) => {
@@ -85,10 +86,10 @@ api
 
     <q-card flat bordered class="theory-card">
       <q-card-section class="q-py-md">
-        <div class="text-h5 absolute-center">{{ theory.name }}</div>
+        <div class="text-h5">{{ theory.name }}</div>
       </q-card-section>
       <q-card-section class="q-pb-md">
-        <div class="text-body1  absolute-center">{{ theory.description }}</div>
+        <div class="text-body1">{{ theory.description }}</div>
       </q-card-section>
 
       <q-card-section class="theory-section-card" v-for="theorySection in theory.theorySections">
