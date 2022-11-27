@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { RouterView, useRouter } from "vue-router";
 import RegistrationForm from "@/components/forms/RegistrationForm.vue";
 import AuthorizationForm from "@/components/forms/AuthorizationForm.vue";
+import RollBackBtn from "./components/RollBackBtn.vue";
 import { LocalStorage } from "quasar";
 import type authToken from "@/interfaces/IAuthToken";
 
@@ -75,6 +76,8 @@ function successAuth() {
     </q-header>
 
     <q-page-container>
+      <RollBackBtn />
+
       <RouterView />
 
       <q-dialog v-model="modalReg">
