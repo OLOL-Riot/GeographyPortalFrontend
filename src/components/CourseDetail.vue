@@ -92,8 +92,8 @@ api
               flat
               @click="
                 $router.push({
-                  name: 'course',
-                  params: { courseId: section.id },
+                  name: 'courseSection',
+                  params: { courseSectionId: section.id },
                 })
               "
               >Перейти</q-btn
