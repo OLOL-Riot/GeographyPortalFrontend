@@ -25,6 +25,7 @@ api
   .then((response: AxiosResponse<ICourse>) => {
     course.value = response.data;
 
+    /*
     course.value.previewCourseSections = [
       {
         id: "0",
@@ -47,6 +48,7 @@ api
         shortDescription: "test short description... ".repeat(10),
       },
     ];
+    */
   })
   .catch((err: AxiosError) => {
     $q.notify({
