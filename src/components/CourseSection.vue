@@ -80,7 +80,7 @@ api
 <template>
   <div class="container ">
     <div class="page-course-section-title">
-      <div class="text-h4 q-pb-md">{{ pageCourseSection.name }}</div>
+      <h1 class="text-h4 q-pb-md">{{ pageCourseSection.name }}</h1>
       <div class="text-body1 q-pb-md">{{ pageCourseSection.shortDescription }}</div>
     </div>
 
