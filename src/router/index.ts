@@ -28,16 +28,15 @@ const router = createRouter({
       component: () => import("@/views/TestView.vue"),
     },
     {
-
       path: "/course/:courseId",
       name: "course",
       component: () => import("@/views/CourseView.vue"),
     },
-
+    {
       path: "/course/section/:courseSectionId",
       name: "courseSection",
       component: () => import("@/views/CourseSectionView.vue"),
-    }
+    },
   ],
 });
 
