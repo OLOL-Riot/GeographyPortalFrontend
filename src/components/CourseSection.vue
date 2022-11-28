@@ -5,6 +5,8 @@ import { useQuasar } from "quasar";
 import type { AxiosError, AxiosResponse } from "axios";
 import type IPageCourseSection from "@/interfaces/IPageCourseSection"
 import type ITheory from "@/interfaces/ITheory"
+import type ItheorySection from "@/interfaces/ITheorySection";
+import { } from "@vue/reactivity";
 
 
 const props = defineProps({
@@ -18,8 +20,13 @@ const $q = useQuasar();
 const api = getApi();
 
 const pageCourseSection = ref({} as IPageCourseSection);
-const theory = ref({} as ITheory)
-const testId = ref({} as string)
+const theory = ref({} as ITheory);
+const theorySections = ref({} as Array<ItheorySection>);
+const testId = ref({} as string);
+
+function sortTheorySections(): Array<ItheorySection> {
+  return theorySections.value.sort(x => x.serialNumber)
+};
 
 // Test Values
 /*
@@ -65,7 +72,7 @@ api
     theory.value = pageCourseSection.value.theory;
     testId.value = pageCourseSection.value.testId;
 
-    theory.value.theorySections.sort(x => x.serialNumber)
+    theorySections.value = theory.value.theorySections.sort(x => x.serialNumber)
   })
   .catch((err: AxiosError) => {
     $q.notify({
@@ -75,6 +82,8 @@ api
       message: err.message,
     });
   });
+
+
 </script>
 
 <template>
@@ -92,7 +101,7 @@ api
         <div class="text-body1">{{ theory.description }}</div>
       </q-card-section>
 
-      <q-card-section class="theory-section-card" v-for="theorySection in theory.theorySections">
+      <q-card-section class="theory-section-card" v-for="theorySection in sortTheorySections()">
         <q-separator />
         <q-card-section>
           <div class="text-h6">{{ theorySection.header }}</div>
