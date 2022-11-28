@@ -3,10 +3,10 @@ export interface ICourse {
   name: string;
   description: string;
   shortDescription: string;
-  previewCourseSections: Array<ICourseSection>;
+  previewCourseSections: Array<ICourseSectionPreview>;
 }
 
-export interface ICourseSection {
+export interface ICourseSectionPreview {
   id: string;
   name: string;
   shortDescription: string;
