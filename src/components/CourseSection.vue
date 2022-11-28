@@ -5,8 +5,6 @@ import { useQuasar } from "quasar";
 import type { AxiosError, AxiosResponse } from "axios";
 import type IPageCourseSection from "@/interfaces/IPageCourseSection"
 import type ITheory from "@/interfaces/ITheory"
-import type ItheorySection from "@/interfaces/ITheorySection";
-import { } from "@vue/reactivity";
 
 
 const props = defineProps({
@@ -21,48 +19,7 @@ const api = getApi();
 
 const pageCourseSection = ref({} as IPageCourseSection);
 const theory = ref({} as ITheory);
-const theorySections = ref({} as Array<ItheorySection>);
 const testId = ref({} as string);
-
-function sortTheorySections(): Array<ItheorySection> {
-  return theorySections.value.sort(x => x.serialNumber)
-};
-
-// Test Values
-/*
-pageCourseSection.value = {
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "name": "Course Section Name",
-  "shortDescription": "shortDescription shortDescription shortDescription shortDescription shortDescription",
-  "serialNumber": 0,
-  "theory": {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "name": "Theory Name",
-    "description": "description description description description description description",
-    "shortDescription": "shortDescription shortDescription shortDescription shortDescription",
-    "theorySections": [
-      {
-        "serialNumber": 0,
-        "header": "Header 1",
-        "content": "content content content content content content content content content content content content "
-      },
-      {
-        "serialNumber": 1,
-        "header": "Header 2",
-        "content": "content content content content content content content content content content content content "
-      },
-      {
-        "serialNumber": 2,
-        "header": "Header 3",
-        "content": "content content content content content content content content content content content content "
-      }
-    ]
-  },
-  "testId": "e40f1a12-8759-45ef-8731-fd3b7ca1d372"
-}
-theory.value = pageCourseSection.value.theory;
-testId.value = pageCourseSection.value.testId;
-*/
 
 
 api
@@ -71,8 +28,6 @@ api
     pageCourseSection.value = response.data;
     theory.value = pageCourseSection.value.theory;
     testId.value = pageCourseSection.value.testId;
-
-    theorySections.value = theory.value.theorySections.sort(x => x.serialNumber)
   })
   .catch((err: AxiosError) => {
     $q.notify({
@@ -90,7 +45,6 @@ api
   <div class="container ">
     <div class="page-course-section-title">
       <h1 class="text-h4 q-pb-md">{{ pageCourseSection.name }}</h1>
-      <div class="text-body1 q-pb-md">{{ pageCourseSection.shortDescription }}</div>
     </div>
 
     <q-card flat bordered class="theory-card">
@@ -101,7 +55,7 @@ api
         <div class="text-body1">{{ theory.description }}</div>
       </q-card-section>
 
-      <q-card-section class="theory-section-card" v-for="theorySection in sortTheorySections()">
+      <q-card-section class="theory-section-card" v-for="theorySection in theory.theorySections">
         <q-separator />
         <q-card-section>
           <div class="text-h6">{{ theorySection.header }}</div>
