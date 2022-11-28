@@ -21,34 +21,9 @@ const route = useRoute();
 const course = ref({} as ICourse);
 
 api
-  .get("api/Course/" + props.courseId)
+  .get("api/Course/page/" + props.courseId)
   .then((response: AxiosResponse<ICourse>) => {
     course.value = response.data;
-
-    /*
-    course.value.previewCourseSections = [
-      {
-        id: "0",
-        name: "test section 1",
-        shortDescription: "test short description... ".repeat(10),
-      },
-      {
-        id: "1",
-        name: "test section 2",
-        shortDescription: "test short description... ".repeat(10),
-      },
-      {
-        id: "2",
-        name: "test section 3",
-        shortDescription: "test short description... ".repeat(10),
-      },
-      {
-        id: "3",
-        name: "test section 4",
-        shortDescription: "test short description... ".repeat(10),
-      },
-    ];
-    */
   })
   .catch((err: AxiosError) => {
     $q.notify({
