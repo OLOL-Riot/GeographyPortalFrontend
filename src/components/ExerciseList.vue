@@ -19,7 +19,7 @@ const props = defineProps({
 });
 
 const $q = useQuasar();
-const api = getApi();
+const api = await getApi();
 
 const exerciseList = ref({} as IExerciseList);
 const test = ref({} as ITest);

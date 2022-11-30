@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const api = getApi();
+const api = await getApi();
 
 const $q = useQuasar();
 const route = useRoute();

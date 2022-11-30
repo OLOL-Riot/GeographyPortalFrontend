@@ -15,7 +15,7 @@ const props = defineProps({
 });
 
 const $q = useQuasar();
-const api = getApi();
+const api = await getApi();
 
 const pageCourseSection = ref({} as IPageCourseSection);
 const theory = ref({} as ITheory);

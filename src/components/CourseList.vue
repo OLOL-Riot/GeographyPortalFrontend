@@ -7,7 +7,7 @@ import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
 import type { ICourseList } from "@/interfaces/ICourse";
 
-const api = getApi();
+const api = await getApi();
 
 const courses = ref({} as ICourseList);
 

@@ -6,7 +6,7 @@ import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
 
-const api = getApi();
+const api = await getApi();
 
 const tests = ref({} as ITestList);
 
