@@ -4,7 +4,7 @@ import { useRouter, useRoute } from "vue-router";
 import { LocalStorage } from "quasar";
 import { ref } from "vue";
 import type IAuthToken from "@/interfaces/IAuthToken";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import type IRequestError from "@/interfaces/IRequestError";
 
 const props = defineProps({
@@ -53,6 +53,7 @@ function onSubmit() {
         LocalStorage.set("auth", {
           login: login.value,
           token: response.data.token,
+          refreshToken: response.data.refreshToken
         } as IAuthToken);
 
         $router.push({ name: "account" });

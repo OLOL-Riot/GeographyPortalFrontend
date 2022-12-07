@@ -6,26 +6,26 @@ import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
 
-const api = getApi();
-
 const tests = ref({} as ITestList);
 
 const $q = useQuasar();
 const $router = useRouter();
 
-api
-  .get("api/Test/solve")
-  .then((response: AxiosResponse<ITestList>) => {
-    tests.value = response.data;
-  })
-  .catch((err: AxiosError) => {
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: err.message,
-    });
-  });
+getApi().then((api) =>
+  api
+    .get("api/Test/solve")
+    .then((response: AxiosResponse<ITestList>) => {
+      tests.value = response.data;
+    })
+    .catch((err: AxiosError) => {
+      $q.notify({
+        color: "red-5",
+        textColor: "white",
+        icon: "warning",
+        message: err.message,
+      });
+    })
+);
 </script>
 
 <template>

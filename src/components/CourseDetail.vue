@@ -13,26 +13,26 @@ const props = defineProps({
   },
 });
 
-const api = getApi();
-
 const $q = useQuasar();
 const route = useRoute();
 
 const course = ref({} as ICourse);
 
-api
-  .get("api/Course/page/" + props.courseId)
-  .then((response: AxiosResponse<ICourse>) => {
-    course.value = response.data;
-  })
-  .catch((err: AxiosError) => {
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: err.message,
-    });
-  });
+getApi().then((api) =>
+  api
+    .get("api/Course/page/" + props.courseId)
+    .then((response: AxiosResponse<ICourse>) => {
+      course.value = response.data;
+    })
+    .catch((err: AxiosError) => {
+      $q.notify({
+        color: "red-5",
+        textColor: "white",
+        icon: "warning",
+        message: err.message,
+      });
+    })
+);
 </script>
 
 <template>
@@ -48,11 +48,9 @@ api
       </div>
     </div>
     <div class="row">
-			<div class="col-12">
-				<h3 class="text-h3  q-px-sm q-py-md">
-					Секции курса
-				</h3>
-			</div>
+      <div class="col-12">
+        <h3 class="text-h3 q-px-sm q-py-md">Секции курса</h3>
+      </div>
       <div
         class="col-md-4 q-px-sm q-py-md"
         v-for="section in course.previewCourseSections"
