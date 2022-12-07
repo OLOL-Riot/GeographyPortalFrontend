@@ -80,4 +80,9 @@ const getApi = async () => {
   })
 };
 
-export { axios, getApi, baseurlsite };
+const getUnauthorizedApi = () =>
+  axios.create({
+    baseURL: baseurlsite + "/",
+  });
+
+export { axios, getApi, getUnauthorizedApi, baseurlsite };
