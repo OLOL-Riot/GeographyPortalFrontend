@@ -33,26 +33,36 @@ function checkToken(token: string) {
 async function refrashToken() {
   let authToken = <IAuthToken>LocalStorage.getItem("auth");
 
-  let response = await axios.put(baseurlsite + "/api/Authentification/refresh", {
-    token: authToken.token,
-    refreshToken: authToken.refreshToken
-  } as IRefrashToken) as AxiosResponse<IRefrashToken>;
+  try {
+    let response = await axios.put(baseurlsite + "/api/Authentification/refresh", {
+      token: authToken.token,
+      refreshToken: authToken.refreshToken
+    } as IRefrashToken) as AxiosResponse<IRefrashToken>;
 
-  let responseToken = response.data;
+    let responseToken = response.data;
 
-  authToken.token = responseToken.token
-  authToken.refreshToken = responseToken.refreshToken;
+    authToken.token = responseToken.token
+    authToken.refreshToken = responseToken.refreshToken;
 
-  LocalStorage.set("auth", authToken);
+    LocalStorage.set("auth", authToken);
+
+    return true;
+  } catch (err) {
+    document.location.href="/";
+
+    return false;
+  }
 }
 
 const getApi = async () => {
   let token = (<IAuthToken>LocalStorage.getItem("auth")).token;
 
   if (!checkToken(token)) {
-    await refrashToken();
-
-    token = (<IAuthToken>LocalStorage.getItem("auth")).token;
+    let updateStatus = await refrashToken();
+    if (updateStatus)
+      token = (<IAuthToken>LocalStorage.getItem("auth")).token;
+    else
+      LocalStorage.clear();
   }
 
   return axios.create({
