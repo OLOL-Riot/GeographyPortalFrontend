@@ -5,7 +5,7 @@ import { ref } from "vue";
 import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
-import type { ICourseList } from "@/interfaces/ICourse";
+import type { ICourse, ICourseList, IUpdateCourse } from "@/interfaces/ICourse";
 
 
 const courses = ref({} as ICourseList);
@@ -28,6 +28,12 @@ getApi().then((api) =>
       });
     })
 );
+
+function updateCoursData(course: ICourse) {
+  let toSend = course as IUpdateCourse;
+  api.put("api/Course/" + course.id, toSend);
+}
+
 </script>
 
 <template>
