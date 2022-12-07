@@ -20,4 +20,11 @@ export interface ICoursePreview {
   courseSectionIds: Array<string>;
 }
 
+export interface IUpdateCourse {
+  name: string;
+  description: string;
+  shortDescription: string;
+  previewCourseSections: Array<ICourseSectionPreview>;
+}
+
 export interface ICourseList extends Array<ICoursePreview> {}
