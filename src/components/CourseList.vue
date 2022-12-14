@@ -5,28 +5,35 @@ import { ref } from "vue";
 import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
-import type { ICourseList } from "@/interfaces/ICourse";
+import type { ICourse, ICourseList, IUpdateCourse } from "@/interfaces/ICourse";
 
-const api = getApi();
 
 const courses = ref({} as ICourseList);
 
 const $q = useQuasar();
 const $router = useRouter();
 
-api
-  .get("api/Course")
-  .then((response: AxiosResponse<ICourseList>) => {
-    courses.value = response.data;
-  })
-  .catch((err: AxiosError) => {
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: err.message,
-    });
-  });
+getApi().then((api) =>
+  api
+    .get("api/Course")
+    .then((response: AxiosResponse<ICourseList>) => {
+      courses.value = response.data;
+    })
+    .catch((err: AxiosError) => {
+      $q.notify({
+        color: "red-5",
+        textColor: "white",
+        icon: "warning",
+        message: err.message,
+      });
+    })
+);
+
+function updateCoursData(course: ICourse) {
+  let toSend = course as IUpdateCourse;
+  api.put("api/Course/" + course.id, toSend);
+}
+
 </script>
 
 <template>
@@ -42,7 +49,9 @@ api
       <q-card-actions vertical class="no-padding">
         <q-btn
           flat
-          @click="$router.push({ name: 'course', params: { courseId: item.id } })"
+          @click="
+            $router.push({ name: 'course', params: { courseId: item.id } })
+          "
           >Перейти</q-btn
         >
       </q-card-actions>
