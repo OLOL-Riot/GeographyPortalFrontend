@@ -6,6 +6,9 @@ import { ref } from "vue";
 import type IAuthToken from "@/interfaces/IAuthToken";
 import axios, { AxiosError } from "axios";
 import type IRequestError from "@/interfaces/IRequestError";
+// @ts-ignore
+import jwt_decode from "jwt-decode";
+import type IDecodedToken from "@/interfaces/IDecodedToken";
 
 const props = defineProps({
   defaultLogin: String,
@@ -50,11 +53,21 @@ function onSubmit() {
           message: "Ok!",
         });
 
-        LocalStorage.set("auth", {
+        let decodeToken = jwt_decode(response.data.token) as IDecodedToken;
+
+        let authToken = {
           login: login.value,
           token: response.data.token,
-          refreshToken: response.data.refreshToken
-        } as IAuthToken);
+          refreshToken: response.data.refreshToken,
+          role: {
+            value:
+              decodeToken[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ],
+          },
+        } as IAuthToken;
+
+        LocalStorage.set("auth", authToken);
 
         $router.push({ name: "account" });
 
