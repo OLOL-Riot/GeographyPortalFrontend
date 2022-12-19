@@ -7,7 +7,6 @@ import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
 import type { ICourse, ICourseList, IUpdateCourse } from "@/interfaces/ICourse";
 
-
 const courses = ref({} as ICourseList);
 
 const $q = useQuasar();
@@ -31,9 +30,8 @@ getApi().then((api) =>
 
 function updateCoursData(course: ICourse) {
   let toSend = course as IUpdateCourse;
-  api.put("api/Course/" + course.id, toSend);
+  getApi().then((api) => api.put("api/Course/" + course.id, toSend));
 }
-
 </script>
 
 <template>
