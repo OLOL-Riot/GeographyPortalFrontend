@@ -2,6 +2,7 @@ import axios, { type AxiosResponse } from "axios";
 import { LocalStorage } from "quasar";
 import type IAuthToken from "./interfaces/IAuthToken";
 import jwt_decode from "jwt-decode"
+import type IDecodedToken from "./interfaces/IDecodedToken";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -17,9 +18,6 @@ interface IRefrashToken {
   refreshToken: string
 }
 
-interface IDecodedToken {
-  exp: number
-}
 
 function checkToken(token: string) {
   let decodedToken = jwt_decode(token) as IDecodedToken;
