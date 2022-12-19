@@ -11,3 +11,11 @@ export function getRole(): Role {
 
   return result;
 }
+
+export function isAdministrator() {
+  return getRole().value === "Administrator";
+}
+
+export function isAuth() {
+  return getRole().value !== "Unauth";
+}
