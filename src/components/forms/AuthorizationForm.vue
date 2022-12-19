@@ -59,7 +59,12 @@ function onSubmit() {
           login: login.value,
           token: response.data.token,
           refreshToken: response.data.refreshToken,
-          role: decodeToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+          role: {
+            value:
+              decodeToken[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ],
+          },
         } as IAuthToken;
 
         LocalStorage.set("auth", authToken);
