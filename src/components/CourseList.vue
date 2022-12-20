@@ -35,6 +35,10 @@ function updateCoursData(course: ICourse) {
   getApi().then((api) => api.put("api/Course/" + course.id, toSend));
 }
 
+function addNewCourse() {
+
+}
+
 function isAdmin() {
   return isAdministrator();
 }
@@ -53,7 +57,7 @@ function isAdmin() {
       class="q-mb-md"
     />
     
-    <q-btn class="col-12" v-if="isAdmin()" color="secondary"
+    <q-btn class="col-12" v-if="isAdmin()" :on-click="addNewCourse" color="secondary"
       >Добавить курс</q-btn
     >
   </div>
