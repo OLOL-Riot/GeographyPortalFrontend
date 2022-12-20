@@ -8,27 +8,33 @@ import { useRouter, useRoute } from "vue-router";
 import type { ICourse, ICourseList, IUpdateCourse } from "@/interfaces/ICourse";
 import { isAdministrator } from "@/roles";
 import CourseListItem from "@/components/CourseListItem.vue";
+import AddNewCourse from "@/components/forms/AddNewCourse.vue";
 
 const courses = ref({} as ICourseList);
 
 const $q = useQuasar();
 const $router = useRouter();
+const addFormShow = ref(false);
 
-getApi().then((api) =>
-  api
-    .get("api/Course")
-    .then((response: AxiosResponse<ICourseList>) => {
-      courses.value = response.data;
-    })
-    .catch((err: AxiosError) => {
-      $q.notify({
-        color: "red-5",
-        textColor: "white",
-        icon: "warning",
-        message: err.message,
-      });
-    })
-);
+updateList();
+
+function updateList() {
+  getApi().then((api) =>
+    api
+      .get("api/Course")
+      .then((response: AxiosResponse<ICourseList>) => {
+        courses.value = response.data;
+      })
+      .catch((err: AxiosError) => {
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.message,
+        });
+      })
+  );
+}
 
 function updateCoursData(course: ICourse) {
   let toSend = course as IUpdateCourse;
@@ -36,7 +42,7 @@ function updateCoursData(course: ICourse) {
 }
 
 function addNewCourse() {
-
+  addFormShow.value = true;
 }
 
 function isAdmin() {
@@ -56,9 +62,14 @@ function isAdmin() {
       :key="item.id"
       class="q-mb-md"
     />
-    
-    <q-btn class="col-12" v-if="isAdmin()" :on-click="addNewCourse" color="secondary"
+
+    <q-btn
+      class="col-12"
+      v-if="isAdmin() && !addFormShow"
+      @click="addNewCourse"
+      color="secondary"
       >Добавить курс</q-btn
     >
+    <AddNewCourse :success="updateList" v-else />
   </div>
 </template>

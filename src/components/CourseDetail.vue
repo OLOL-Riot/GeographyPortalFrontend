@@ -42,9 +42,8 @@ getApi().then((api) =>
         <h1 class="text-h1">
           {{ course.name }}
         </h1>
-        <p class="text-body1 q-mt-md">
-          {{ course.description }}
-        </p>
+        <div class="text-body1 q-mt-md" v-html="course.description">
+        </div>
       </div>
     </div>
     <div class="row">
