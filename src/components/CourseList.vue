@@ -63,13 +63,11 @@ function isAdmin() {
       class="q-mb-md"
     />
 
-    <q-btn
-      class="col-12"
-      v-if="isAdmin() && !addFormShow"
-      @click="addNewCourse"
-      color="secondary"
-      >Добавить курс</q-btn
-    >
-    <AddNewCourse :success="updateList" v-else />
+    <template v-if="isAdmin()">
+      <AddNewCourse :success="updateList" v-if="addFormShow" />
+      <q-btn class="col-12" v-else @click="addNewCourse" color="secondary"
+        >Добавить курс</q-btn
+      >
+    </template>
   </div>
 </template>
