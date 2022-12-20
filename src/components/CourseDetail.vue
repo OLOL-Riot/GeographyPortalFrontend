@@ -5,6 +5,7 @@ import type { ICourse } from "@/interfaces/ICourse";
 import { useQuasar, QBtn } from "quasar";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import { computed } from "@vue/reactivity";
 
 const props = defineProps({
   courseId: {
@@ -23,6 +24,10 @@ getApi().then((api) =>
     .get("api/Course/page/" + props.courseId)
     .then((response: AxiosResponse<ICourse>) => {
       course.value = response.data;
+
+      course.value.previewCourseSections.sort(
+        (a, b) => a.serialNumber - b.serialNumber
+      );
     })
     .catch((err: AxiosError) => {
       $q.notify({
@@ -79,7 +84,6 @@ getApi().then((api) =>
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .course-section {

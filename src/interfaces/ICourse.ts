@@ -8,6 +8,7 @@ export interface ICourse {
 
 export interface ICourseSectionPreview {
   id: string;
+  serialNumber: number;
   name: string;
   shortDescription: string;
 }

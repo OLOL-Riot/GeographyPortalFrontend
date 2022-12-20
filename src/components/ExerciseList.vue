@@ -43,7 +43,7 @@ getApi().then((api) =>
     .then((response: AxiosResponse<ITest>) => {
       test.value = response.data;
 
-      exerciseList.value = response.data.exercises.sort((x) => x.serialNumber);
+      exerciseList.value = response.data.exercises.sort((a, b) => a.serialNumber - b.serialNumber);
 
       response.data.exercises.forEach((exercise) => {
         answersStatus.value[exercise.id] = "blue";
