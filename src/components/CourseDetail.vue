@@ -56,13 +56,13 @@ getApi().then((api) =>
         v-for="section in course.previewCourseSections"
         :key="section.id"
       >
-        <q-card>
+        <q-card class="course-section bg-grey-8">
           <q-card-section class="bg-grey-8 text-white">
             <div class="text-h6">{{ section.name }}</div>
             <div class="text-subtitle2">{{ section.shortDescription }}</div>
           </q-card-section>
 
-          <q-card-actions vertical class="no-padding">
+          <q-card-actions vertical class="no-padding q-mt-auto bg-white">
             <q-btn
               flat
               @click="
@@ -79,3 +79,12 @@ getApi().then((api) =>
     </div>
   </div>
 </template>
+
+
+<style scoped>
+.course-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+</style>
