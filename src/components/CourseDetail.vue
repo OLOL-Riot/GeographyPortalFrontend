@@ -39,7 +39,7 @@ getApi().then((api) =>
   <div class="container text-center">
     <div class="row">
       <div class="col-12">
-        <h1 class="text-h1">
+        <h1 class="text-h2">
           {{ course.name }}
         </h1>
         <p class="text-body1 q-mt-md">
