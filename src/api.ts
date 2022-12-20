@@ -11,7 +11,7 @@ import type IDecodedToken from "./interfaces/IDecodedToken";
 // "export default () => {}" function below (which runs individually
 // for each client)
 // const baseurlsite = 'https://b2b.skysleep.ru'
-const baseurlsite = "http://localhost:5242";
+const baseurlsite = "http://92.53.115.183:8080";
 
 interface IRefrashToken {
   token: string;

@@ -4,11 +4,12 @@ import { useRouter, useRoute } from "vue-router";
 import { LocalStorage } from "quasar";
 import { ref } from "vue";
 import type IAuthToken from "@/interfaces/IAuthToken";
-import axios, { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import type IRequestError from "@/interfaces/IRequestError";
 // @ts-ignore
 import jwt_decode from "jwt-decode";
 import type IDecodedToken from "@/interfaces/IDecodedToken";
+import { getUnauthorizedApi } from "@/api";
 
 const props = defineProps({
   defaultLogin: String,
@@ -40,8 +41,8 @@ function onSubmit() {
       message: "You need to accept the license and terms first",
     });
   } else {
-    axios
-      .post("http://localhost:5242/api/Authentification/login", {
+    getUnauthorizedApi()
+      .post("api/Authentification/login", {
         login: login.value,
         password: password.value,
       })
