@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import EditingToolBar from "@/components/EditingToolBar.vue";
+import { isAdministrator } from "@/roles";
+
 const props = defineProps({
   id: {
     type: String,
@@ -12,18 +15,30 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  onRemove: {
+    type: Function,
+    default: (id: string) => {},
+  },
 });
 
+function isAdmin() {
+  return isAdministrator();
+}
 </script>
 
 <template>
-  <q-card class="col-12">
-    <q-card-section class="bg-grey-8 text-white">
+  <q-card class="col-12 course-preview bg-grey-8 column">
+    <EditingToolBar
+      v-if="isAdmin()"
+      :to-remove="() => onRemove(id)"
+    />
+
+    <q-card-section class="text-white">
       <div class="text-h6">{{ name }}</div>
       <div class="text-subtitle2">{{ description }}</div>
     </q-card-section>
 
-    <q-card-actions vertical class="no-padding">
+    <q-card-actions vertical class="bg-white no-padding q-mt-auto">
       <q-btn
         flat
         @click="$router.push({ name: 'course', params: { courseId: id } })"
@@ -33,3 +48,9 @@ const props = defineProps({
   </q-card>
 </template>
 
+<style lang="scss" scoped>
+.course-preview {
+  position: relative;
+  min-height: 150px;
+}
+</style>

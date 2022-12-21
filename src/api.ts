@@ -1,7 +1,7 @@
 import axios, { type AxiosResponse } from "axios";
 import { LocalStorage } from "quasar";
 import type IAuthToken from "./interfaces/IAuthToken";
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
 import type IDecodedToken from "./interfaces/IDecodedToken";
 
 // Be careful when using SSR for cross-request state pollution
@@ -15,9 +15,8 @@ const baseurlsite = "http://92.53.115.183:8080";
 
 interface IRefrashToken {
   token: string;
-  refreshToken: string
+  refreshToken: string;
 }
-
 
 function checkToken(token: string) {
   let decodedToken = jwt_decode(token) as IDecodedToken;
@@ -32,21 +31,24 @@ async function refrashToken() {
   let authToken = <IAuthToken>LocalStorage.getItem("auth");
 
   try {
-    let response = await axios.put(baseurlsite + "/api/Authentification/refresh", {
-      token: authToken.token,
-      refreshToken: authToken.refreshToken
-    } as IRefrashToken) as AxiosResponse<IRefrashToken>;
+    let response = (await axios.put(
+      baseurlsite + "/api/Authentification/refresh",
+      {
+        token: authToken.token,
+        refreshToken: authToken.refreshToken,
+      } as IRefrashToken
+    )) as AxiosResponse<IRefrashToken>;
 
     let responseToken = response.data;
 
-    authToken.token = responseToken.token
+    authToken.token = responseToken.token;
     authToken.refreshToken = responseToken.refreshToken;
 
     LocalStorage.set("auth", authToken);
 
     return true;
   } catch (err) {
-    document.location.href="/";
+    document.location.href = "/";
 
     return false;
   }
@@ -57,25 +59,23 @@ const getApi = async () => {
 
   if (!checkToken(token)) {
     let updateStatus = await refrashToken();
-    if (updateStatus)
-      token = (<IAuthToken>LocalStorage.getItem("auth")).token;
-    else
-      LocalStorage.clear();
+    if (updateStatus) token = (<IAuthToken>LocalStorage.getItem("auth")).token;
+    else LocalStorage.clear();
   }
+
+  const authHeader = {
+    Authorization: "bearer " + token,
+  };
 
   return axios.create({
     headers: {
-      post: {
-        Authorization:
-          "bearer " + token,
-      },
-      get: {
-        Authorization:
-          "bearer " + token,
-      },
+      post: authHeader,
+      get: authHeader,
+      delete: authHeader,
+      put: authHeader,
     },
     baseURL: baseurlsite + "/",
-  })
+  });
 };
 
 const getUnauthorizedApi = () =>

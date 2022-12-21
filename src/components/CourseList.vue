@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ITestList } from "@/interfaces/ITest";
 import { getApi } from "@/api";
 import { ref } from "vue";
 import type { AxiosError, AxiosResponse } from "axios";
@@ -45,6 +44,30 @@ function addNewCourse() {
   addFormShow.value = true;
 }
 
+function removeCourse(id: string) {
+  getApi().then((api) =>
+    api
+      .delete("api/Course/" + id)
+      .then((response) => {
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Успешное удаление",
+        });
+        updateList();
+      })
+      .catch((err: AxiosError) => {
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.message,
+        });
+      })
+  );
+}
+
 function isAdmin() {
   return isAdministrator();
 }
@@ -58,6 +81,7 @@ function isAdmin() {
       :id="item.id"
       :name="item.name"
       :description="item.shortDescription"
+      :on-remove="removeCourse"
       v-for="item in courses"
       :key="item.id"
       class="q-mb-md"
