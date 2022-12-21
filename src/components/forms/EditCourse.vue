@@ -1,60 +1,55 @@
 <script setup lang="ts">
 import { useQuasar } from "quasar";
 import { ref } from "vue";
-import { getApi } from "@/api";
 import type IAddCourse from "@/interfaces/IAddCourse";
 
 const props = defineProps({
-  success: {
+  id: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  shortDescription: {
+    type: String,
+    required: true,
+  },
+  onUpdate: {
     type: Function,
-    default: () => {},
+    default: (id: string, data: IAddCourse) => {},
   },
 });
 
 const course = ref({} as IAddCourse);
 onReset();
 
-const $q = useQuasar();
-
 function onSubmit() {
-  getApi().then((api) =>
-    api
-      .post("api/Course", course.value)
-      .then((response) => {
-        $q.notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          message: "Успешно добавлено!",
-        });
-
-        props.success();
-      })
-      .catch((err) => {
-        console.log(err);
-        $q.notify({
-          color: "red-5",
-          textColor: "white",
-          icon: "warning",
-          message: err.response.data.title,
-        });
-      })
-  );
+  props.onUpdate(props.id, course.value);
 }
 
 function onReset() {
   course.value = {
-    name: "",
-    description: "",
-    shortDescription: "",
+    name: props.name,
+    description: props.description,
+    shortDescription: props.shortDescription,
   };
 }
 </script>
 
 <template>
   <q-card class="q-pa-md" style="width: 100%">
-    <h4>Добавление курса</h4>
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md q-mt-md text-left">
+    <h4>Редактирование курса</h4>
+    <q-form
+      @submit="onSubmit"
+      @reset="onReset"
+      class="q-gutter-md q-mt-md text-left"
+    >
       <q-input
         filled
         v-model="course.name"
@@ -71,7 +66,7 @@ function onReset() {
 
       <div>
         <q-btn
-          label="Добавить"
+          label="Применить"
           class="full-width"
           type="submit"
           color="green"
