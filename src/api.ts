@@ -11,7 +11,7 @@ import type IDecodedToken from "./interfaces/IDecodedToken";
 // "export default () => {}" function below (which runs individually
 // for each client)
 // const baseurlsite = 'https://b2b.skysleep.ru'
-console.log(import.meta.env.VITE_RLPORTALBACKEND_BASE_URL)
+
 const baseurlsite = import.meta.env.VITE_RLPORTALBACKEND_BASE_URL;
 
 interface IRefrashToken {
