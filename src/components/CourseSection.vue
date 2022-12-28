@@ -11,10 +11,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
   theoryName: {
     type: String,
     required: true,

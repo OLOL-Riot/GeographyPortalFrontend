@@ -71,7 +71,6 @@ getData();
   <q-page padding>
     <CourseSection v-if="load"
       :name="pageCourseSection.name"
-      :description="pageCourseSection.shortDescription"
       :theoryName="pageCourseSection.theory.name"
       :theoryDescription="pageCourseSection.theory.description"
       :testId="pageCourseSection.testId"
