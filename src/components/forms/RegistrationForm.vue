@@ -53,7 +53,7 @@ function onSubmit() {
     };
 
     getUnauthorizedApi()
-      .post("http://localhost:5242/api/Authentification/registration", regForm)
+      .post("api/Authentification/registration", regForm)
       .then((response) => {
         $q.notify({
           color: "green-4",

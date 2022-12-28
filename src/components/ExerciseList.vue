@@ -43,7 +43,7 @@ getApi().then((api) =>
     .then((response: AxiosResponse<ITest>) => {
       test.value = response.data;
 
-      exerciseList.value = response.data.exercises.sort((x) => x.serialNumber);
+      exerciseList.value = response.data.exercises.sort((a, b) => a.serialNumber - b.serialNumber);
 
       response.data.exercises.forEach((exercise) => {
         answersStatus.value[exercise.id] = "blue";
@@ -108,8 +108,8 @@ function checkAnsver() {
 
 <template>
   <div class="container">
-    <div class="q-pa-md column justify-center items-center q-gutter-md">
-      <q-card class="my-card" v-for="exercise in exerciseList" :key="exercise.id">
+    <div class="q-pa-md column justify-center items-center">
+      <q-card class="my-card q-mb-md" v-for="exercise in exerciseList" :key="exercise.id">
         <q-card-section>
           <div class="text-h6">{{ exercise.description }}</div>
         </q-card-section>
@@ -147,7 +147,7 @@ function checkAnsver() {
 
 <style scoped>
 .my-card {
-  min-width: 400px;
+  width: 100%;
 }
 
 .result {

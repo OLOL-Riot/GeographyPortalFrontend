@@ -46,6 +46,10 @@ function successAuth() {
   username.value = (LocalStorage.getItem("auth") as authToken).login;
 }
 
+function goHomePage() {
+  $router.push({ name: "home" })
+}
+
 
 </script>
 
@@ -53,11 +57,14 @@ function successAuth() {
   <q-layout view="lhr lpR lFr">
     <q-header reveal elevated class="bg-red-7 text-white q-px-xl" height-hint="98">
       <q-toolbar>
-        <q-avatar>
-          <img src="@/assets/logo.png" />
-        </q-avatar>
+        <q-btn flat @click="goHomePage()">
+          <q-avatar>
+            <img src="@/assets/logo.png" />
+          </q-avatar>
 
-        <q-toolbar-title>RL Portal</q-toolbar-title>
+          <q-toolbar-title>RL Portal</q-toolbar-title>
+        </q-btn>
+
         <q-space />
 
         <div class="flex" v-if="!checkAuth">

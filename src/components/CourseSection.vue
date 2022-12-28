@@ -25,6 +25,10 @@ getApi().then((api) =>
     .then((response: AxiosResponse<IPageCourseSection>) => {
       pageCourseSection.value = response.data;
       theory.value = pageCourseSection.value.theory;
+      theory.value.theorySections.sort(
+        (a, b) => a.serialNumber - b.serialNumber
+      );
+
       testId.value = pageCourseSection.value.testId;
     })
     .catch((err: AxiosError) => {
