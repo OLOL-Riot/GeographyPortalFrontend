@@ -17,13 +17,13 @@ const props = defineProps({
 
 <template>
   <div class="col-md-4 q-px-sm q-py-md">
-    <q-card>
+    <q-card class="course-section bg-grey-8">
       <q-card-section class="bg-grey-8 text-white">
         <div class="text-h6">{{ name }}</div>
         <div class="text-subtitle2">{{ shortDescription }}</div>
       </q-card-section>
 
-      <q-card-actions vertical class="no-padding">
+      <q-card-actions vertical class="no-padding q-mt-auto bg-white">
         <q-btn
           flat
           @click="
@@ -38,3 +38,11 @@ const props = defineProps({
     </q-card>
   </div>
 </template>
+
+<style scoped>
+.course-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+</style>

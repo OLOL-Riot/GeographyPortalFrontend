@@ -35,11 +35,6 @@ function updateList() {
   );
 }
 
-function updateCoursData(course: ICourse) {
-  let toSend = course as IUpdateCourse;
-  getApi().then((api) => api.put("api/Course/" + course.id, toSend));
-}
-
 function addNewCourse() {
   addFormShow.value = true;
 }

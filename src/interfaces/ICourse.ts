@@ -25,7 +25,7 @@ export interface IUpdateCourse {
   name: string;
   description: string;
   shortDescription: string;
-  previewCourseSections: Array<ICourseSectionPreview>;
+  courseSectionIds: Array<string>;
 }
 
 export interface ICourseList extends Array<ICoursePreview> {}

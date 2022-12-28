@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { useQuasar } from "quasar";
 import { ref } from "vue";
-import type IAddCourse from "@/interfaces/IAddCourse";
+import type { IUpdateCourse } from "@/interfaces/ICourse";
 
 const props = defineProps({
-  id: {
-    type: String,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -20,36 +15,27 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  onUpdate: {
+  onSave: {
     type: Function,
-    default: (id: string, data: IAddCourse) => {},
+    default: (data: IUpdateCourse) => {},
   },
 });
 
-const course = ref({} as IAddCourse);
-onReset();
+const course = ref({
+  name: props.name,
+  description: props.description,
+  shortDescription: props.shortDescription,
+} as IUpdateCourse);
 
 function onSubmit() {
-  props.onUpdate(props.id, course.value);
-}
-
-function onReset() {
-  course.value = {
-    name: props.name,
-    description: props.description,
-    shortDescription: props.shortDescription,
-  };
+  props.onSave(course.value);
 }
 </script>
 
 <template>
   <q-card class="q-pa-md" style="width: 100%">
     <h4>Редактирование курса</h4>
-    <q-form
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md q-mt-md text-left"
-    >
+    <q-form @submit="onSubmit" class="q-gutter-md q-mt-md text-left">
       <q-input
         filled
         v-model="course.name"
@@ -66,9 +52,9 @@ function onReset() {
 
       <div>
         <q-btn
+          type="submit"
           label="Применить"
           class="full-width"
-          type="submit"
           color="green"
         />
       </div>
