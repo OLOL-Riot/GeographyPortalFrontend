@@ -6,7 +6,7 @@ import CourseSection from "@/components/CourseSection.vue";
 import type IPageCourseSection from "@/interfaces/IPageCourseSection";
 import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar } from "quasar";
-import CourseSectionTheory from "@/components/CourseSectionTheory.vue";
+import CourseSectionTheoryBlock from "@/components/CourseSectionTheoryBlock.vue";
 
 const route = useRoute();
 const courseSectionId = ref(route.params.courseSectionId as string);
@@ -75,7 +75,7 @@ getData();
       :theoryDescription="pageCourseSection.theory.description"
       :testId="pageCourseSection.testId"
     >
-      <CourseSectionTheory
+      <CourseSectionTheoryBlock
         v-for="theoryBlock in pageCourseSection.theory.theorySections"
         :key="theoryBlock.serialNumber"
         :title="theoryBlock.header"
