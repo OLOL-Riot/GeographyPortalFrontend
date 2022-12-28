@@ -1,13 +1,17 @@
-# этап сборки (build stage)
+# Step 1: Build Vue Project
+# build stage
 FROM node:lts-alpine as build-stage
+# Set working directory
 WORKDIR /app
-COPY package*.json ./
-RUN yarn
+# Copy all files from current directory to working dir in image
 COPY . .
-RUN yarn build
+# install node modules and build assets
+RUN yarn install && yarn build
 
-# этап production (production-stage)
+# Step 2: Create Nginx Server
 FROM nginx:stable-alpine as production-stage
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
