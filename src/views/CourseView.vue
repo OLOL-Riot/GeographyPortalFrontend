@@ -71,6 +71,31 @@ function updateCourse(data: IUpdateCourse) {
       })
   );
 }
+
+function removeCourseSection(id: string) {
+  getApi().then((api) =>
+    api
+      .delete("api/CourseSection/" + id)
+      .then((response) => {
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Успешное удаление",
+        });
+
+        getData();
+      })
+      .catch((err: AxiosError) => {
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.message,
+        });
+      })
+  );
+}
 </script>
 
 <template>
@@ -96,11 +121,20 @@ function updateCourse(data: IUpdateCourse) {
           :id="section.id"
           :name="section.name"
           :shortDescription="section.shortDescription"
+          :on-remove="removeCourseSection"
         />
-        <AddCourseSection v-if="isAdministrator()" :course-id="course.id" :success="getData" />
+        <AddCourseSection
+          v-if="isAdministrator()"
+          :course-id="course.id"
+          :success="getData"
+        />
       </div>
       <div v-else class="row">
-        <AddCourseSection v-if="isAdministrator()" :course-id="course.id" :success="getData" />
+        <AddCourseSection
+          v-if="isAdministrator()"
+          :course-id="course.id"
+          :success="getData"
+        />
       </div>
     </CourseDetail>
     <EditCourse

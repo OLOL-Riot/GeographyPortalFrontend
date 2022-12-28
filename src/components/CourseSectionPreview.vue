@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import EditingToolBar from "@/components/EditingToolBar.vue";
+import { isAdministrator } from "@/roles";
+
 const props = defineProps({
   id: {
     type: String,
@@ -12,12 +15,21 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  onRemove: {
+    type: Function,
+    default: (id: string) => {},
+  },
 });
 </script>
 
 <template>
   <div class="col-md-4 q-px-sm q-py-md">
     <q-card class="course-section bg-grey-8">
+      <EditingToolBar
+        v-if="isAdministrator()"
+        :to-remove="() => onRemove(id)"
+      />
+
       <q-card-section class="bg-grey-8 text-white">
         <div class="text-h6">{{ name }}</div>
         <div class="text-subtitle2">{{ shortDescription }}</div>
