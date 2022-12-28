@@ -21,6 +21,7 @@ getApi().then((api) =>
     .get("api/Course/page/" + courseId)
     .then((response: AxiosResponse<ICourse>) => {
       course.value = response.data;
+      course.value.previewCourseSections.sort((a, b) => a.serialNumber - b.serialNumber);
       load.value = true;
     })
     .catch((err: AxiosError) => {
