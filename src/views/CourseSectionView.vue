@@ -13,6 +13,9 @@ const route = useRoute();
 const courseSectionId = ref(route.params.courseSectionId as string);
 const load = ref(false);
 
+type EditMode = "none" | "section" | "theory";
+const editMode = ref("none" as EditMode);
+
 const pageCourseSection = ref({} as IPageCourseSection);
 const $q = useQuasar();
 
@@ -38,43 +41,13 @@ function getData() {
   );
 }
 getData();
-
-// function updateCourse(data: IUpdateCourseSection) {
-//   let toSend = data;
-//   //   toSend.courseSectionIds = course.value.previewCourseSections.map((e) => e.id);
-
-//   //   getApi().then((api) =>
-//   //     api
-//   //       .put("api/Course/" + courseId, toSend)
-//   //       .then((response: AxiosResponse) => {
-//   //         editMode.value = false;
-//   //         getData();
-
-//   //         $q.notify({
-//   //           color: "green-5",
-//   //           textColor: "white",
-//   //           icon: "done",
-//   //         });
-//   //       })
-//   //       .catch((err: AxiosError) => {
-//   //         $q.notify({
-//   //           color: "red-5",
-//   //           textColor: "white",
-//   //           icon: "warning",
-//   //           message: err.message,
-//   //         });
-//   //       })
-//   //   );
-// }
 </script>
 
 <template>
-  <q-page padding>
+  <q-page padding v-if="load">
     <CourseSection
-      v-if="load"
+      v-if="editMode == 'none'"
       :name="pageCourseSection.name"
-      :theoryName="pageCourseSection.theory.name"
-      :theoryDescription="pageCourseSection.theory.description"
       :testId="pageCourseSection.testId"
     >
       <CourseSectionTheory
@@ -89,5 +62,6 @@ getData();
         />
       </CourseSectionTheory>
     </CourseSection>
+
   </q-page>
 </template>
