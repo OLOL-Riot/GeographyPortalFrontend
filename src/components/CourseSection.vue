@@ -7,68 +7,44 @@ import type IPageCourseSection from "@/interfaces/IPageCourseSection";
 import type ITheory from "@/interfaces/ITheory";
 
 const props = defineProps({
-  courseSectionId: {
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  theoryName: {
+    type: String,
+    required: true,
+  },
+  theoryDescription: {
+    type: String,
+    required: true,
+  },
+  testId: {
     type: String,
     required: true,
   },
 });
-
-const $q = useQuasar();
-
-const pageCourseSection = ref({} as IPageCourseSection);
-const theory = ref({} as ITheory);
-const testId = ref({} as string);
-
-getApi().then((api) =>
-  api
-    .get("/api/CourseSection/page/" + props.courseSectionId)
-    .then((response: AxiosResponse<IPageCourseSection>) => {
-      pageCourseSection.value = response.data;
-      theory.value = pageCourseSection.value.theory;
-      theory.value.theorySections.sort(
-        (a, b) => a.serialNumber - b.serialNumber
-      );
-
-      testId.value = pageCourseSection.value.testId;
-    })
-    .catch((err: AxiosError) => {
-      $q.notify({
-        color: "red-5",
-        textColor: "white",
-        icon: "warning",
-        message: err.message,
-      });
-    })
-);
 </script>
 
 <template>
   <div class="container">
     <div class="page-course-section-title">
-      <h1 class="text-h4 q-pb-md">{{ pageCourseSection.name }}</h1>
+      <h1 class="text-h4 q-pb-md">{{ name }}</h1>
     </div>
 
     <q-card flat bordered class="theory-card">
       <q-card-section class="q-py-md">
-        <div class="text-h5">{{ theory.name }}</div>
+        <div class="text-h5">{{ theoryName }}</div>
       </q-card-section>
       <q-card-section class="q-pb-md">
-        <div class="text-body1">{{ theory.description }}</div>
+        <div class="text-body1">{{ theoryDescription }}</div>
       </q-card-section>
 
-      <q-card-section
-        class="theory-section-card"
-        v-for="theorySection in theory.theorySections"
-        :key="theorySection.serialNumber"
-      >
-        <q-separator />
-        <q-card-section>
-          <div class="text-h6">{{ theorySection.header }}</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          {{ theorySection.content }}
-        </q-card-section>
-      </q-card-section>
+      <slot></slot>
     </q-card>
 
     <div class="row q-pa-md">
