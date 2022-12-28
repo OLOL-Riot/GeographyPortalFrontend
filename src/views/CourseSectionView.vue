@@ -7,6 +7,7 @@ import type IPageCourseSection from "@/interfaces/IPageCourseSection";
 import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar } from "quasar";
 import CourseSectionTheoryBlock from "@/components/CourseSectionTheoryBlock.vue";
+import CourseSectionTheory from "@/components/CourseSectionTheory.vue";
 
 const route = useRoute();
 const courseSectionId = ref(route.params.courseSectionId as string);
@@ -69,18 +70,21 @@ getData();
 
 <template>
   <q-page padding>
-    <CourseSection v-if="load"
+    <CourseSection
+      v-if="load"
       :name="pageCourseSection.name"
       :theoryName="pageCourseSection.theory.name"
       :theoryDescription="pageCourseSection.theory.description"
       :testId="pageCourseSection.testId"
     >
-      <CourseSectionTheoryBlock
-        v-for="theoryBlock in pageCourseSection.theory.theorySections"
-        :key="theoryBlock.serialNumber"
-        :title="theoryBlock.header"
-        :content="theoryBlock.content"
-      />
+      <CourseSectionTheory :name="pageCourseSection.theory.name" :description="pageCourseSection.theory.description">
+        <CourseSectionTheoryBlock
+          v-for="theoryBlock in pageCourseSection.theory.theorySections"
+          :key="theoryBlock.serialNumber"
+          :title="theoryBlock.header"
+          :content="theoryBlock.content"
+        />
+      </CourseSectionTheory>
     </CourseSection>
   </q-page>
 </template>

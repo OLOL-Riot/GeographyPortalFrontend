@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import { getApi } from "@/api";
-import { ref } from "vue";
-import { useQuasar } from "quasar";
-import type { AxiosError, AxiosResponse } from "axios";
-import type IPageCourseSection from "@/interfaces/IPageCourseSection";
-import type ITheory from "@/interfaces/ITheory";
-
 const props = defineProps({
   name: {
     type: String,
