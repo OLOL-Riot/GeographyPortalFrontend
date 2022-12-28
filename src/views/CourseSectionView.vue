@@ -77,7 +77,10 @@ getData();
       :theoryDescription="pageCourseSection.theory.description"
       :testId="pageCourseSection.testId"
     >
-      <CourseSectionTheory :name="pageCourseSection.theory.name" :description="pageCourseSection.theory.description">
+      <CourseSectionTheory
+        :name="pageCourseSection.theory.name"
+        :description="pageCourseSection.theory.description"
+      >
         <CourseSectionTheoryBlock
           v-for="theoryBlock in pageCourseSection.theory.theorySections"
           :key="theoryBlock.serialNumber"
