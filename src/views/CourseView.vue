@@ -8,6 +8,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import CourseSectionPreview from "@/components/CourseSectionPreview.vue";
 import EditCourse from "@/components/forms/EditCourse.vue";
+import AddCourseSection from "@/components/forms/AddCourseSection.vue";
 
 const $q = useQuasar();
 const route = useRoute();
@@ -95,6 +96,10 @@ function updateCourse(data: IUpdateCourse) {
           :name="section.name"
           :shortDescription="section.shortDescription"
         />
+        <AddCourseSection :course-id="course.id" :success="getData" />
+      </div>
+      <div v-else class="row">
+        <AddCourseSection :course-id="course.id" :success="getData" />
       </div>
     </CourseDetail>
     <EditCourse
