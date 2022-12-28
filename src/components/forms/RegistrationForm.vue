@@ -2,7 +2,7 @@
 import type IRegistrationPost from "@/interfaces/IRegistrationPost";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
-import axios from "axios";
+import { getUnauthorizedApi } from "@/api";
 
 const props = defineProps({
   success: {
@@ -52,8 +52,8 @@ function onSubmit() {
       phoneNumber: phoneNumber.value
     };
 
-    axios
-      .post("http://localhost:5242/api/Authentification/registration", regForm)
+    getUnauthorizedApi()
+      .post("api/Authentification/registration", regForm)
       .then((response) => {
         $q.notify({
           color: "green-4",

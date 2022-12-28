@@ -19,7 +19,6 @@ const props = defineProps({
 });
 
 const $q = useQuasar();
-const api = getApi();
 
 const exerciseList = ref({} as IExerciseList);
 const test = ref({} as ITest);
@@ -38,25 +37,27 @@ const answersStatus = ref({} as IAnswersStatus);
 const result = ref("");
 const solutionSent = ref(false);
 
-api
-  .get("api/Test/solve/" + props.testId)
-  .then((response: AxiosResponse<ITest>) => {
-    test.value = response.data;
+getApi().then((api) =>
+  api
+    .get("api/Test/solve/" + props.testId)
+    .then((response: AxiosResponse<ITest>) => {
+      test.value = response.data;
 
-    exerciseList.value = response.data.exercises.sort(x => x.serialNumber);
+      exerciseList.value = response.data.exercises.sort((a, b) => a.serialNumber - b.serialNumber);
 
-    response.data.exercises.forEach((exercise) => {
-      answersStatus.value[exercise.id] = "blue";
-    });
-  })
-  .catch((err: AxiosError) => {
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: err.message,
-    });
-  });
+      response.data.exercises.forEach((exercise) => {
+        answersStatus.value[exercise.id] = "blue";
+      });
+    })
+    .catch((err: AxiosError) => {
+      $q.notify({
+        color: "red-5",
+        textColor: "white",
+        icon: "warning",
+        message: err.message,
+      });
+    })
+);
 
 function checkAnsver() {
   let postData = {} as IVerifyTestPost;
@@ -69,27 +70,28 @@ function checkAnsver() {
 
     postData.userAnswers.push({
       exerciseId: exercise.id,
-      chosenAnswer: typeof chosenAnswer != 'undefined' ? chosenAnswer : null,
+      chosenAnswer: typeof chosenAnswer != "undefined" ? chosenAnswer : null,
     });
   }
 
-  api
-    .post("api/VerifiedTest/", postData)
-    .then((response: AxiosResponse<IVerifyTestResponse>) => {
-      response.data.verifiedAnswers.forEach((question) => {
-        if (question.isRight)
-          answersStatus.value[question.exerciseId] = "green";
-        else answersStatus.value[question.exerciseId] = "red";
-      });
-
-      if (response.data.points == response.data.maxPoints)
-        $q.notify({
-          color: "green-5",
-          textColor: "white",
-          icon: "done",
-          message: "Абсолютно верно!",
+  getApi().then((api) =>
+    api
+      .post("api/VerifiedTest/", postData)
+      .then((response: AxiosResponse<IVerifyTestResponse>) => {
+        response.data.verifiedAnswers.forEach((question) => {
+          if (question.isRight)
+            answersStatus.value[question.exerciseId] = "green";
+          else answersStatus.value[question.exerciseId] = "red";
         });
-      /*
+
+        if (response.data.points == response.data.maxPoints)
+          $q.notify({
+            color: "green-5",
+            textColor: "white",
+            icon: "done",
+            message: "Абсолютно верно!",
+          });
+        /*
       $q.notify({
         color: "blue-5",
         textColor: "white",
@@ -97,16 +99,17 @@ function checkAnsver() {
         message: `Вы набрали ${response.data.points} из ${response.data.maxPoints} баллов`,
       });*/
 
-      result.value = `Вы набрали ${response.data.points} из ${response.data.maxPoints} баллов`;
-      solutionSent.value = true;
-    });
+        result.value = `Вы набрали ${response.data.points} из ${response.data.maxPoints} баллов`;
+        solutionSent.value = true;
+      })
+  );
 }
 </script>
 
 <template>
   <div class="container">
-    <div class="q-pa-md column justify-center items-center q-gutter-md">
-      <q-card class="my-card" v-for="exercise in exerciseList">
+    <div class="q-pa-md column justify-center items-center">
+      <q-card class="my-card q-mb-md" v-for="exercise in exerciseList" :key="exercise.id">
         <q-card-section>
           <div class="text-h6">{{ exercise.description }}</div>
         </q-card-section>
@@ -117,6 +120,7 @@ function checkAnsver() {
           <q-radio
             class="q-pr-md"
             v-for="option in exercise.answers"
+            :key="option"
             :color="answersStatus[exercise.id]"
             v-model="answersByExercises[exercise.id]"
             :val="option"
@@ -143,7 +147,7 @@ function checkAnsver() {
 
 <style scoped>
 .my-card {
-  min-width: 400px;
+  width: 100%;
 }
 
 .result {

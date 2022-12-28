@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { RouterView, useRouter } from "vue-router";
+import { RouterView, useRouter, useRoute } from "vue-router";
 import RegistrationForm from "@/components/forms/RegistrationForm.vue";
 import AuthorizationForm from "@/components/forms/AuthorizationForm.vue";
 import RollBackBtn from "./components/RollBackBtn.vue";
@@ -19,6 +19,7 @@ const username = ref(
 );
 
 const $router = useRouter();
+const $route = useRoute();
 
 const checkAuth = ref(LocalStorage.getItem("auth") !== null);
 
@@ -44,22 +45,26 @@ function successAuth() {
   checkAuth.value = true;
   username.value = (LocalStorage.getItem("auth") as authToken).login;
 }
+
+function goHomePage() {
+  $router.push({ name: "home" })
+}
+
+
 </script>
 
 <template>
   <q-layout view="lhr lpR lFr">
-    <q-header
-      reveal
-      elevated
-      class="bg-red-7 text-white q-px-xl"
-      height-hint="98"
-    >
+    <q-header reveal elevated class="bg-red-7 text-white q-px-xl" height-hint="98">
       <q-toolbar>
-        <q-avatar>
-          <img src="@/assets/logo.png" />
-        </q-avatar>
+        <q-btn flat @click="goHomePage()">
+          <q-avatar>
+            <img src="@/assets/logo.png" />
+          </q-avatar>
 
-        <q-toolbar-title>RL Portal</q-toolbar-title>
+          <q-toolbar-title>RL Portal</q-toolbar-title>
+        </q-btn>
+
         <q-space />
 
         <div class="flex" v-if="!checkAuth">
@@ -76,8 +81,7 @@ function successAuth() {
     </q-header>
 
     <q-page-container>
-      <RollBackBtn />
-
+      <RollBackBtn v-if="!(['home', 'confirmEmail'].includes($route.name as string))" />
       <RouterView />
 
       <q-dialog v-model="modalReg">
@@ -85,14 +89,12 @@ function successAuth() {
       </q-dialog>
 
       <q-dialog v-model="modalAuth">
-        <AuthorizationForm
-          :defaultLogin="regLogin"
-          :defaultPassword="regPass"
-          :success="successAuth"
-        />
+        <AuthorizationForm :defaultLogin="regLogin" :defaultPassword="regPass" :success="successAuth" />
       </q-dialog>
     </q-page-container>
   </q-layout>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

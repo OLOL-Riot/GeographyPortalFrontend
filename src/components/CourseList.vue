@@ -1,51 +1,92 @@
 <script setup lang="ts">
-import type { ITestList } from "@/interfaces/ITest";
 import { getApi } from "@/api";
 import { ref } from "vue";
 import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar, QBtn } from "quasar";
 import { useRouter, useRoute } from "vue-router";
-import type { ICourseList } from "@/interfaces/ICourse";
-
-const api = getApi();
+import type { ICourse, ICourseList, IUpdateCourse } from "@/interfaces/ICourse";
+import { isAdministrator } from "@/roles";
+import CourseListItem from "@/components/CourseListItem.vue";
+import AddNewCourse from "@/components/forms/AddNewCourse.vue";
 
 const courses = ref({} as ICourseList);
 
 const $q = useQuasar();
 const $router = useRouter();
+const addFormShow = ref(false);
 
-api
-  .get("api/Course")
-  .then((response: AxiosResponse<ICourseList>) => {
-    courses.value = response.data;
-  })
-  .catch((err: AxiosError) => {
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: err.message,
-    });
-  });
+updateList();
+
+function updateList() {
+  getApi().then((api) =>
+    api
+      .get("api/Course")
+      .then((response: AxiosResponse<ICourseList>) => {
+        courses.value = response.data;
+      })
+      .catch((err: AxiosError) => {
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.message,
+        });
+      })
+  );
+}
+
+function addNewCourse() {
+  addFormShow.value = true;
+}
+
+function removeCourse(id: string) {
+  getApi().then((api) =>
+    api
+      .delete("api/Course/" + id)
+      .then((response) => {
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Успешное удаление",
+        });
+        updateList();
+      })
+      .catch((err: AxiosError) => {
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.message,
+        });
+      })
+  );
+}
+
+function isAdmin() {
+  return isAdministrator();
+}
 </script>
 
 <template>
   <h2 class="text-h2 text-center">Список доступных курсов</h2>
 
-  <div class="q-py-md q-px-sm row items-start q-gutter-md q-mt-xl text-center">
-    <q-card class="col-12" v-for="item in courses" :key="item.id">
-      <q-card-section class="bg-grey-8 text-white">
-        <div class="text-h6">{{ item.name }}</div>
-        <div class="text-subtitle2">{{ item.description }}</div>
-      </q-card-section>
+  <div class="q-py-md q-px-sm row items-start q-mt-xl text-center">
+    <CourseListItem
+      :id="item.id"
+      :name="item.name"
+      :description="item.shortDescription"
+      :on-remove="removeCourse"
+      v-for="item in courses"
+      :key="item.id"
+      class="q-mb-md"
+    />
 
-      <q-card-actions vertical class="no-padding">
-        <q-btn
-          flat
-          @click="$router.push({ name: 'course', params: { courseId: item.id } })"
-          >Перейти</q-btn
-        >
-      </q-card-actions>
-    </q-card>
+    <template v-if="isAdmin()">
+      <AddNewCourse :success="updateList" v-if="addFormShow" />
+      <q-btn class="col-12" v-else @click="addNewCourse" color="secondary"
+        >Добавить курс</q-btn
+      >
+    </template>
   </div>
 </template>

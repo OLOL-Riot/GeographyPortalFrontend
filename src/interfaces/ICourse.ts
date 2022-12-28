@@ -8,12 +8,20 @@ export interface ICourse {
 
 export interface ICourseSectionPreview {
   id: string;
+  serialNumber: number;
   name: string;
   shortDescription: string;
 }
 
 export interface ICoursePreview {
   id: string;
+  name: string;
+  description: string;
+  shortDescription: string;
+  courseSectionIds: Array<string>;
+}
+
+export interface IUpdateCourse {
   name: string;
   description: string;
   shortDescription: string;

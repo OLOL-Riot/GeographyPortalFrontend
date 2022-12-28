@@ -1,80 +1,59 @@
 <script setup lang="ts">
-import { getApi } from "@/api";
-import { ref } from "vue";
-import { useQuasar } from "quasar";
-import type { AxiosError, AxiosResponse } from "axios";
-import type IPageCourseSection from "@/interfaces/IPageCourseSection"
-import type ITheory from "@/interfaces/ITheory"
-
+import { isAdministrator } from "@/roles";
 
 const props = defineProps({
-  courseSectionId: {
+  name: {
     type: String,
     required: true,
   },
+  testId: {
+    type: String,
+    required: true,
+  },
+  toEdit: {
+    type: Function,
+  },
 });
-
-const $q = useQuasar();
-const api = getApi();
-
-const pageCourseSection = ref({} as IPageCourseSection);
-const theory = ref({} as ITheory);
-const testId = ref({} as string);
-
-
-api
-  .get("/api/CourseSection/page/" + props.courseSectionId)
-  .then((response: AxiosResponse<IPageCourseSection>) => {
-    pageCourseSection.value = response.data;
-    theory.value = pageCourseSection.value.theory;
-    testId.value = pageCourseSection.value.testId;
-  })
-  .catch((err: AxiosError) => {
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: err.message,
-    });
-  });
-
-
 </script>
 
 <template>
-  <div class="container ">
-    <div class="page-course-section-title">
-      <h1 class="text-h4 q-pb-md">{{ pageCourseSection.name }}</h1>
+  <div class="container">
+    <div class="course-section-title">
+      <h1 class="text-h4 q-pb-md">{{ name }}</h1>
+      <q-btn
+        class="course-section-title__edit-btn"
+        icon="edit"
+        color="blue"
+        v-if="toEdit && isAdministrator()"
+        @click="toEdit && toEdit()"
+      />
     </div>
 
-    <q-card flat bordered class="theory-card">
-      <q-card-section class="q-py-md">
-        <div class="text-h5">{{ theory.name }}</div>
-      </q-card-section>
-      <q-card-section class="q-pb-md">
-        <div class="text-body1">{{ theory.description }}</div>
-      </q-card-section>
-
-      <q-card-section class="theory-section-card" v-for="theorySection in theory.theorySections">
-        <q-separator />
-        <q-card-section>
-          <div class="text-h6">{{ theorySection.header }}</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          {{ theorySection.content }}
-        </q-card-section>
-      </q-card-section>
-    </q-card>
+    <slot></slot>
 
     <div class="row q-pa-md">
-      <q-btn class="q-mx-auto" color="green" label="Перейти к тесту"
-        @click="$router.push({ name: 'test', params: { testId: testId } })" />
+      <q-btn
+        class="q-mx-auto"
+        color="green"
+        label="Перейти к тесту"
+        @click="$router.push({ name: 'test', params: { testId: testId } })"
+      />
     </div>
   </div>
 </template>
 
-<style scoped>
-.page-course-section-title {
-  text-align: center
-}
+<style lang="sass" scoped>
+.course-section-title
+  position: relative
+  width: max-content
+  margin-inline: auto
+  padding-inline: 55px
+
+  &__edit-btn
+    position: absolute
+    right: 0
+    top: 0
+    padding: 10px
+    border-radius: 100%
+    z-index: 1
 </style>
