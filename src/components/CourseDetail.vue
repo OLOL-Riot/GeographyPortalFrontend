@@ -7,8 +7,13 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { computed } from "@vue/reactivity";
 
+
 const props = defineProps({
-  courseId: {
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
     type: String,
     required: true,
   },
@@ -44,6 +49,7 @@ getApi().then((api) =>
   <div class="container text-center">
     <div class="row">
       <div class="col-12">
+
         <h1 class="text-h2">
           {{ course.name }}
         </h1>
@@ -82,6 +88,7 @@ getApi().then((api) =>
         </q-card>
       </div>
     </div>
+    <slot></slot>
   </div>
 </template>
 
