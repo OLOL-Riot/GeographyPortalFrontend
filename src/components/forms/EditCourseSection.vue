@@ -96,7 +96,7 @@ function onSubmit() {
             type="number"
             label="Порядковый номер"
             lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
+            :rules="[(val) => val || 'Введите что-нибудь']"
           />
         </q-card-section>
 
