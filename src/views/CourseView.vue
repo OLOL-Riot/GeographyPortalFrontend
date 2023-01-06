@@ -9,6 +9,8 @@ import { useRoute } from "vue-router";
 import CourseSectionPreview from "@/components/CourseSectionPreview.vue";
 import EditCourse from "@/components/forms/EditCourse.vue";
 import AddCourseSection from "@/components/forms/AddCourseSection.vue";
+import { QDialog } from "quasar";
+import EditCourseSection from "@/components/forms/EditCourseSection.vue";
 
 const $q = useQuasar();
 const route = useRoute();
@@ -16,8 +18,14 @@ const courseId = route.params.courseId as string;
 
 const course = ref({} as ICourse);
 
-let load = ref(false);
-let editMode = ref(false);
+const load = ref(false);
+const editMode = ref(false);
+const editSectionMode = ref(false);
+
+const editableSectionId = ref("");
+const editableSectionName = ref("");
+const editableSectionShortDescription = ref("");
+const editableSectionSerialNumber = ref(0);
 
 function getData() {
   getApi().then((api) =>
@@ -72,7 +80,18 @@ function updateCourse(data: IUpdateCourse) {
 }
 
 function editSection(sectionId: string) {
-  
+  editSectionMode.value = true;
+
+  const editableSection = course.value.previewCourseSections.find(
+    (el) => el.id == sectionId
+  );
+
+  if (typeof editableSection == "undefined") return;
+
+  editableSectionId.value = editableSection.id;
+  editableSectionName.value = editableSection.name;
+  editableSectionShortDescription.value = editableSection.shortDescription;
+  editableSectionSerialNumber.value = editableSection.serialNumber;
 }
 
 function removeSection(sectionId: string) {
@@ -98,7 +117,6 @@ function removeSection(sectionId: string) {
       })
   );
 }
-
 </script>
 
 <template>
@@ -140,5 +158,14 @@ function removeSection(sectionId: string) {
       :shortDescription="course.shortDescription"
       :onSave="updateCourse"
     />
+    <q-dialog v-model="editSectionMode">
+      <EditCourseSection
+        :section-id="editableSectionId"
+        :section-name="editableSectionName"
+        :section-short-description="editableSectionShortDescription"
+        :section-serial-number="editableSectionSerialNumber"
+        :success="getData"
+      />
+    </q-dialog>
   </q-page>
 </template>
