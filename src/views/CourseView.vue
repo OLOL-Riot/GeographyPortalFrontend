@@ -159,13 +159,15 @@ function removeSection(sectionId: string) {
       :onSave="updateCourse"
     />
     <q-dialog v-model="editSectionMode">
-      <EditCourseSection
-        :section-id="editableSectionId"
-        :section-name="editableSectionName"
-        :section-short-description="editableSectionShortDescription"
-        :section-serial-number="editableSectionSerialNumber"
-        :success="getData"
-      />
+      <div>
+        <EditCourseSection
+          :section-id="editableSectionId"
+          :section-name="editableSectionName"
+          :section-short-description="editableSectionShortDescription"
+          :section-serial-number="editableSectionSerialNumber"
+          :success="getData"
+        />
+      </div>
     </q-dialog>
   </q-page>
 </template>

@@ -69,46 +69,44 @@ function onSubmit() {
 </script>
 
 <template>
-  <div>
-    <q-form @submit="onSubmit" @reset="onReset">
-      <q-card>
-        <q-card-section>
-          <h4 class="q-mb-md">Изменение секции курса</h4>
-          <q-input
-            filled
-            v-model="courseSection.name"
-            label="Название секции"
-            lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
-          />
+  <q-form @submit="onSubmit" @reset="onReset">
+    <q-card>
+      <q-card-section>
+        <h4 class="q-mb-md">Изменение секции курса</h4>
+        <q-input
+          filled
+          v-model="courseSection.name"
+          label="Название секции"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
+        />
 
-          <q-input
-            filled
-            v-model="courseSection.shortDescription"
-            label="Краткое описание"
-            lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
-          />
+        <q-input
+          filled
+          v-model="courseSection.shortDescription"
+          label="Краткое описание"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
+        />
 
-          <q-input
-            filled
-            v-model="courseSection.serialNumber"
-            type="number"
-            label="Порядковый номер"
-            lazy-rules
-            :rules="[(val) => val || 'Введите что-нибудь']"
-          />
-        </q-card-section>
+        <q-input
+          filled
+          v-model="courseSection.serialNumber"
+          type="number"
+          label="Порядковый номер"
+          lazy-rules
+          :rules="[(val) => typeof val == 'number' || 'Введите что-нибудь']"
+        />
+      </q-card-section>
 
-        <q-card-actions vertical class="no-padding q-mt-auto bg-white">
-          <q-btn
-            label="Применить"
-            class="full-width"
-            type="submit"
-            color="green"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-form>
-  </div>
+      <q-card-actions vertical class="no-padding q-mt-auto bg-white">
+        <q-btn
+          label="Применить"
+          class="full-width"
+          type="submit"
+          color="green"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-form>
 </template>
