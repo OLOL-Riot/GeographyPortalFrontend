@@ -70,6 +70,35 @@ function updateCourse(data: IUpdateCourse) {
       })
   );
 }
+
+function editSection(sectionId: string) {
+  
+}
+
+function removeSection(sectionId: string) {
+  getApi().then((api) =>
+    api
+      .delete("api/CourseSection/" + sectionId)
+      .then((response) => {
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Успешное удаление",
+        });
+        getData();
+      })
+      .catch((err: AxiosError) => {
+        $q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: err.message,
+        });
+      })
+  );
+}
+
 </script>
 
 <template>
@@ -95,6 +124,8 @@ function updateCourse(data: IUpdateCourse) {
           :id="section.id"
           :name="section.name"
           :shortDescription="section.shortDescription"
+          :to-edit="editSection"
+          :to-remove="removeSection"
         />
         <AddCourseSection :course-id="course.id" :success="getData" />
       </div>
