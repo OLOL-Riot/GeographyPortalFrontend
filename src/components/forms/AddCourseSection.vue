@@ -54,53 +54,47 @@ function onReset() {
     courseId: props.courseId,
   };
 }
-
 </script>
 
 <template>
-  <q-form
-    @submit="onSubmit"
-    @reset="onReset"
-  >
-    <div class="col-md-4 q-px-sm q-py-md">
-      <q-card class="course-section">
-        <q-card-section class="">
-          <h4 class="q-mb-md">Добавление секции курса</h4>
-          <q-input
-            filled
-            v-model="courseSection.name"
-            label="Название секции"
-            lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
-          />
+  <q-form @submit="onSubmit" @reset="onReset" class="col-md-4 col-12 q-px-sm q-py-md">
+    <q-card class="course-section">
+      <q-card-section class="">
+        <h4 class="q-mb-md">Добавление секции курса</h4>
+        <q-input
+          filled
+          v-model="courseSection.name"
+          label="Название секции"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
+        />
 
-          <q-input
-            filled
-            v-model="courseSection.shortDescription"
-            label="Название краткое описание"
-            lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
-          />
+        <q-input
+          filled
+          v-model="courseSection.shortDescription"
+          label="Название краткое описание"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
+        />
 
-          <q-input
-            filled
-            v-model="courseSection.serialNumber"
-            type="number"
-            label="Введите порядковый номер"
-            lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
-          />
-        </q-card-section>
+        <q-input
+          filled
+          v-model="courseSection.serialNumber"
+          type="number"
+          label="Введите порядковый номер"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
+        />
+      </q-card-section>
 
-        <q-card-actions vertical class="no-padding q-mt-auto bg-white">
-          <q-btn
-            label="Добавить"
-            class="full-width"
-            type="submit"
-            color="green"
-          />
-        </q-card-actions>
-      </q-card>
-    </div>
+      <q-card-actions vertical class="no-padding q-mt-auto bg-white">
+        <q-btn
+          label="Добавить"
+          class="full-width"
+          type="submit"
+          color="green"
+        />
+      </q-card-actions>
+    </q-card>
   </q-form>
 </template>

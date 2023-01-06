@@ -22,7 +22,7 @@ const props = defineProps({
     <div class="row">
       <div class="col-12">
         <div class="main-title">
-          <h1 class="text-h1">
+          <h1 class="text-h1 course-title">
             {{ name }}
           </h1>
           <q-btn
@@ -54,4 +54,9 @@ const props = defineProps({
     padding: 10px
     border-radius: 100%
     z-index: 1
+
+@media (max-width: 768px)
+  .course-title
+    font-size: 36px
+    font-weight: 400
 </style>
