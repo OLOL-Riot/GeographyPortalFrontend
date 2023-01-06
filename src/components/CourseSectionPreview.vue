@@ -66,7 +66,7 @@ const props = defineProps({
   &__title
     position: relative
     margin-inline: auto
-    padding: 10px 30px 5px
+    padding: 25px 30px 5px
 
   &__edit-btn
     position: absolute

@@ -17,8 +17,8 @@ function confirmRemove() {
     const remove = props.toRemove;
 
     $q.dialog({
-      title: "Удаление курса",
-      message: "Вы действительно хотите удалить курс?",
+      title: "Удаление",
+      message: "Вы действительно хотите удалить?",
       cancel: true,
       persistent: true,
       ok: {
