@@ -2,6 +2,7 @@
 import { isAdministrator } from "@/roles";
 import EditingToolBar from "@/components/EditingToolBar.vue";
 
+
 const props = defineProps({
   id: {
     type: String,
@@ -22,6 +23,7 @@ const props = defineProps({
   toRemove: {
     type: Function,
     default: (sectionId: string) => {},
+
   },
 });
 </script>
@@ -29,6 +31,11 @@ const props = defineProps({
 <template>
   <div class="col-md-4 col-12 q-px-sm q-py-md">
     <q-card class="course-section bg-grey-8">
+      <EditingToolBar
+        v-if="isAdministrator()"
+        :to-remove="() => onRemove(id)"
+      />
+
       <q-card-section class="bg-grey-8 text-white">
         <EditingToolBar
           v-if="isAdministrator()"

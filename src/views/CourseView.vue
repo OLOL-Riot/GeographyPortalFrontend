@@ -11,6 +11,8 @@ import EditCourse from "@/components/forms/EditCourse.vue";
 import AddCourseSection from "@/components/forms/AddCourseSection.vue";
 import { QDialog } from "quasar";
 import EditCourseSection from "@/components/forms/EditCourseSection.vue";
+import { isAdministrator } from "@/roles";
+
 
 const $q = useQuasar();
 const route = useRoute();
@@ -105,6 +107,7 @@ function removeSection(sectionId: string) {
           icon: "cloud_done",
           message: "Успешное удаление",
         });
+
         getData();
       })
       .catch((err: AxiosError) => {
@@ -145,10 +148,13 @@ function removeSection(sectionId: string) {
           :to-edit="editSection"
           :to-remove="removeSection"
         />
-        <AddCourseSection :course-id="course.id" :success="getData" />
       </div>
       <div v-else class="row">
-        <AddCourseSection :course-id="course.id" :success="getData" />
+        <AddCourseSection
+          v-if="isAdministrator()"
+          :course-id="course.id"
+          :success="getData"
+        />
       </div>
     </CourseDetail>
     <EditCourse

@@ -58,6 +58,7 @@ function onReset() {
 
 <template>
   <q-form @submit="onSubmit" @reset="onReset" class="col-md-4 col-12 q-px-sm q-py-md">
+
     <q-card class="course-section">
       <q-card-section class="">
         <h4 class="q-mb-md">Добавление секции курса</h4>

@@ -20,16 +20,12 @@ const props = defineProps({
     default: (id: string) => {},
   },
 });
-
-function isAdmin() {
-  return isAdministrator();
-}
 </script>
 
 <template>
   <q-card class="col-12 course-preview bg-grey-8 column">
     <EditingToolBar
-      v-if="isAdmin()"
+      v-if="isAdministrator()"
       :to-remove="() => onRemove(id)"
     />
 
