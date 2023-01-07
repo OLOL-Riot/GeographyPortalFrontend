@@ -10,11 +10,16 @@ import type {
   IVerifyTestPost,
 } from "@/interfaces/IVerifyTestPost";
 import type { IVerifyTestResponse } from "@/interfaces/IVerifyTestResponse";
+import EditingToolBar from "./EditingToolBar.vue";
+import { isAdministrator } from "@/roles";
 
 const props = defineProps({
   testId: {
     type: String,
     required: true,
+  },
+  toEdit: {
+    type: Function,
   },
 });
 
@@ -110,6 +115,7 @@ function checkAnsver() {
 
 <template>
   <div class="container">
+    <EditingToolBar v-if="isAdministrator()" :to-edit="toEdit" />
     <div class="q-pa-md column justify-center items-center">
       <q-card
         class="my-card q-mb-md"

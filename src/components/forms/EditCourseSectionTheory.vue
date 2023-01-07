@@ -105,9 +105,17 @@ function addNewTheorySection() {
         <h5 class="q-mb-md">Теоретические блоки</h5>
         <q-card
           class="theory-block__item"
-          v-for="theorySection in theory.theorySections"
+          v-for="(theorySection, key) in theory.theorySections"
+          :key="key"
         >
-          <EditingToolBar :to-remove="() => theory.theorySections = theory.theorySections.filter(item => item !== theorySection) "/>
+          <EditingToolBar
+            :to-remove="
+              () =>
+                (theory.theorySections = theory.theorySections.filter(
+                  (item) => item !== theorySection
+                ))
+            "
+          />
           <q-input
             filled
             v-model="theorySection.header"
