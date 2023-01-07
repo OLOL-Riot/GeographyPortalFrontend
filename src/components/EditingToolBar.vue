@@ -68,7 +68,6 @@ function edit() {
   position: absolute;
   right: 5px;
   top: 5px;
-  height: 100%;
   gap: 5px;
   &__item {
     z-index: 10;
