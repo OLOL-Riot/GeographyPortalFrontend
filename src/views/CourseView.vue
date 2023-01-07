@@ -9,7 +9,10 @@ import { useRoute } from "vue-router";
 import CourseSectionPreview from "@/components/CourseSectionPreview.vue";
 import EditCourse from "@/components/forms/EditCourse.vue";
 import AddCourseSection from "@/components/forms/AddCourseSection.vue";
+import { QDialog } from "quasar";
+import EditCourseSection from "@/components/forms/EditCourseSection.vue";
 import { isAdministrator } from "@/roles";
+
 
 const $q = useQuasar();
 const route = useRoute();
@@ -17,8 +20,14 @@ const courseId = route.params.courseId as string;
 
 const course = ref({} as ICourse);
 
-let load = ref(false);
-let editMode = ref(false);
+const load = ref(false);
+const editMode = ref(false);
+const editSectionMode = ref(false);
+
+const editableSectionId = ref("");
+const editableSectionName = ref("");
+const editableSectionShortDescription = ref("");
+const editableSectionSerialNumber = ref(0);
 
 function getData() {
   getApi().then((api) =>
@@ -72,10 +81,25 @@ function updateCourse(data: IUpdateCourse) {
   );
 }
 
-function removeCourseSection(id: string) {
+function editSection(sectionId: string) {
+  editSectionMode.value = true;
+
+  const editableSection = course.value.previewCourseSections.find(
+    (el) => el.id == sectionId
+  );
+
+  if (typeof editableSection == "undefined") return;
+
+  editableSectionId.value = editableSection.id;
+  editableSectionName.value = editableSection.name;
+  editableSectionShortDescription.value = editableSection.shortDescription;
+  editableSectionSerialNumber.value = editableSection.serialNumber;
+}
+
+function removeSection(sectionId: string) {
   getApi().then((api) =>
     api
-      .delete("api/CourseSection/" + id)
+      .delete("api/CourseSection/" + sectionId)
       .then((response) => {
         $q.notify({
           color: "green-4",
@@ -121,12 +145,8 @@ function removeCourseSection(id: string) {
           :id="section.id"
           :name="section.name"
           :shortDescription="section.shortDescription"
-          :on-remove="removeCourseSection"
-        />
-        <AddCourseSection
-          v-if="isAdministrator()"
-          :course-id="course.id"
-          :success="getData"
+          :to-edit="editSection"
+          :to-remove="removeSection"
         />
       </div>
       <div v-else class="row">
@@ -144,5 +164,16 @@ function removeCourseSection(id: string) {
       :shortDescription="course.shortDescription"
       :onSave="updateCourse"
     />
+    <q-dialog v-model="editSectionMode">
+      <div>
+        <EditCourseSection
+          :section-id="editableSectionId"
+          :section-name="editableSectionName"
+          :section-short-description="editableSectionShortDescription"
+          :section-serial-number="editableSectionSerialNumber"
+          :success="getData"
+        />
+      </div>
+    </q-dialog>
   </q-page>
 </template>

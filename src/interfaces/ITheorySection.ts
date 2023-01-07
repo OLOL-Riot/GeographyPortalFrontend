@@ -1,7 +1,7 @@
-export default interface ItheorySection {
+export default interface ITheorySection {
     serialNumber: number,
     header: string,
     content: string
 }
 
-export interface ITheorySections extends Array<ItheorySection> { }
+export interface ITheorySections extends Array<ITheorySection> { }

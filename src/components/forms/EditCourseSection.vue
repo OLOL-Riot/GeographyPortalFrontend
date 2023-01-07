@@ -2,11 +2,23 @@
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 import { getApi } from "@/api";
-import type IAddCourseSection from "@/interfaces/IAddCourseSection";
+import type IUpdateCourseSection from "@/interfaces/IUpdateCourseSection";
 
 const props = defineProps({
-  courseId: {
+  sectionId: {
     type: String,
+    required: true,
+  },
+  sectionName: {
+    type: String,
+    required: true,
+  },
+  sectionShortDescription: {
+    type: String,
+    required: true,
+  },
+  sectionSerialNumber: {
+    type: Number,
     required: true,
   },
   success: {
@@ -15,7 +27,16 @@ const props = defineProps({
   },
 });
 
-const courseSection = ref({} as IAddCourseSection);
+const courseSection = ref({} as IUpdateCourseSection);
+
+function onReset() {
+  courseSection.value = {
+    name: props.sectionName,
+    shortDescription: props.sectionShortDescription,
+    serialNumber: props.sectionSerialNumber,
+  };
+}
+
 onReset();
 
 const $q = useQuasar();
@@ -23,13 +44,13 @@ const $q = useQuasar();
 function onSubmit() {
   getApi().then((api) =>
     api
-      .post("api/CourseSection", courseSection.value)
+      .put("api/CourseSection/" + props.sectionId, courseSection.value)
       .then((response) => {
         $q.notify({
           color: "green-4",
           textColor: "white",
           icon: "cloud_done",
-          message: "Успешно добавлено!",
+          message: "Успешно изменено!",
         });
 
         props.success();
@@ -45,23 +66,13 @@ function onSubmit() {
       })
   );
 }
-
-function onReset() {
-  courseSection.value = {
-    name: "",
-    shortDescription: "",
-    serialNumber: 0,
-    courseId: props.courseId,
-  };
-}
 </script>
 
 <template>
-  <q-form @submit="onSubmit" @reset="onReset" class="col-md-4 col-12 q-px-sm q-py-md">
-
-    <q-card class="course-section">
-      <q-card-section class="">
-        <h4 class="q-mb-md">Добавление секции курса</h4>
+  <q-form @submit="onSubmit" @reset="onReset">
+    <q-card>
+      <q-card-section>
+        <h4 class="q-mb-md">Изменение секции курса</h4>
         <q-input
           filled
           v-model="courseSection.name"
@@ -73,7 +84,7 @@ function onReset() {
         <q-input
           filled
           v-model="courseSection.shortDescription"
-          label="Название краткое описание"
+          label="Краткое описание"
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
         />
@@ -82,15 +93,15 @@ function onReset() {
           filled
           v-model="courseSection.serialNumber"
           type="number"
-          label="Введите порядковый номер"
+          label="Порядковый номер"
           lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Введите что-нибудь']"
+          :rules="[(val) => typeof val == 'number' || 'Введите что-нибудь']"
         />
       </q-card-section>
 
       <q-card-actions vertical class="no-padding q-mt-auto bg-white">
         <q-btn
-          label="Добавить"
+          label="Применить"
           class="full-width"
           type="submit"
           color="green"

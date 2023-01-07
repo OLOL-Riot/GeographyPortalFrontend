@@ -8,13 +8,14 @@ import type { AxiosError, AxiosResponse } from "axios";
 import { useQuasar } from "quasar";
 import CourseSectionTheoryBlock from "@/components/CourseSectionTheoryBlock.vue";
 import CourseSectionTheory from "@/components/CourseSectionTheory.vue";
+import EditCourseSectionTheory from "@/components/forms/EditCourseSectionTheory.vue";
+import { isAdministrator } from "@/roles";
 
 const route = useRoute();
 const courseSectionId = ref(route.params.courseSectionId as string);
 const load = ref(false);
 
-type EditMode = "none" | "section" | "theory";
-const editMode = ref("none" as EditMode);
+const editMode = ref(false);
 
 const pageCourseSection = ref({} as IPageCourseSection);
 const $q = useQuasar();
@@ -46,13 +47,14 @@ getData();
 <template>
   <q-page padding v-if="load">
     <CourseSection
-      v-if="editMode == 'none'"
       :name="pageCourseSection.name"
       :testId="pageCourseSection.testId"
     >
       <CourseSectionTheory
         :name="pageCourseSection.theory.name"
         :description="pageCourseSection.theory.description"
+        :to-edit="() => (editMode = true)"
+        v-if="!editMode"
       >
         <CourseSectionTheoryBlock
           v-for="theoryBlock in pageCourseSection.theory.theorySections"
@@ -61,7 +63,17 @@ getData();
           :content="theoryBlock.content"
         />
       </CourseSectionTheory>
+      <EditCourseSectionTheory
+        v-else-if="isAdministrator()"
+        :theoryId="pageCourseSection.theory.id"
+        :success="
+          () => {
+            load = false;
+            editMode = false;
+            getData();
+          }
+        "
+      />
     </CourseSection>
-
   </q-page>
 </template>
