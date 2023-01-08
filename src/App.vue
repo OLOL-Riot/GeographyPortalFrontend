@@ -55,7 +55,7 @@ function goHomePage() {
 
 <template>
   <q-layout view="lhr lpR lFr">
-    <q-header reveal elevated class="bg-primary-7 text-white q-px-xl" height-hint="98">
+    <q-header reveal elevated class="bg-primary text-white q-px-xl" height-hint="98">
       <q-toolbar>
         <q-btn flat @click="goHomePage()">
           <q-avatar>
