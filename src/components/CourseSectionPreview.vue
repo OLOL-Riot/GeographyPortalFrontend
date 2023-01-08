@@ -33,7 +33,7 @@ const props = defineProps({
     <q-card class="course-section bg-grey-8">
       <EditingToolBar
         v-if="isAdministrator()"
-        :to-remove="() => onRemove(id)"
+        :to-remove="() => toRemove(id)"
       />
 
       <q-card-section class="bg-grey-8 text-white">
