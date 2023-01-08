@@ -172,7 +172,7 @@ onReset();
               v-model="exercise.rightAnswer"
               :options="exercise.answers"
               stack-label
-              label="Правельный вариант ответа"
+              label="Правильный вариант ответа"
               bg-color="blue-5"
               label-color="white"
             />
