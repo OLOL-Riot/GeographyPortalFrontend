@@ -122,7 +122,7 @@ function onReset() {
       />
 
       <div>
-        <q-btn label="Авторизоваться" class="full-width" type="submit" color="red" />
+        <q-btn label="Авторизоваться" class="full-width" type="submit" color="primary" />
       </div>
     </q-form>
   </q-card>

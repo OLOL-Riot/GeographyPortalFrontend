@@ -84,7 +84,7 @@ function isAdmin() {
 
     <template v-if="isAdmin()">
       <AddNewCourse :success="updateList" v-if="addFormShow" />
-      <q-btn class="col-12" v-else @click="addNewCourse" color="secondary"
+      <q-btn class="col-12" v-else @click="addNewCourse" color="green"
         >Добавить курс</q-btn
       >
     </template>
