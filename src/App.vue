@@ -47,10 +47,8 @@ function successAuth() {
 }
 
 function goHomePage() {
-  $router.push({ name: "home" })
+  $router.push({ name: "home" });
 }
-
-
 </script>
 
 <template>
@@ -67,12 +65,12 @@ function goHomePage() {
 
         <q-space />
 
-        <div class="flex" v-if="!checkAuth">
+        <div class="flex auth-and-reg" v-if="!checkAuth">
           <q-btn stretch flat label="Авторизация" @click="modalAuth = true" />
           <q-separator dark vertical />
           <q-btn stretch flat label="Регистрация" @click="modalReg = true" />
         </div>
-        <div class="flex" v-else>
+        <div class="flex auth-and-reg" v-else>
           <q-btn stretch flat :label="username" @click="toAccountPage()" />
           <q-separator dark vertical />
           <q-btn stretch flat label="Выйти" @click="exitFromAuth" />
@@ -81,7 +79,9 @@ function goHomePage() {
     </q-header>
 
     <q-page-container>
-      <RollBackBtn v-if="!(['home', 'confirmEmail'].includes($route.name as string))" />
+      <RollBackBtn
+        v-if="!(['home', 'confirmEmail'].includes($route.name as string))"
+      />
       <RouterView />
 
       <q-dialog v-model="modalReg">
@@ -89,12 +89,18 @@ function goHomePage() {
       </q-dialog>
 
       <q-dialog v-model="modalAuth">
-        <AuthorizationForm :defaultLogin="regLogin" :defaultPassword="regPass" :success="successAuth" />
+        <AuthorizationForm
+          :defaultLogin="regLogin"
+          :defaultPassword="regPass"
+          :success="successAuth"
+        />
       </q-dialog>
     </q-page-container>
   </q-layout>
 </template>
 
-<style scoped>
-
+<style lang="sass" scoped>
+.auth-and-reg
+  @media (max-width: $breakpoint-xs-max) 
+    flex-direction: column
 </style>
