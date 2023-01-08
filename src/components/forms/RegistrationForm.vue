@@ -140,7 +140,7 @@ function onReset() {
       <q-input
         filled
         v-model="password"
-        label="Пароль"
+        label="Пароль *"
         lazy-rules
         :type="!openPwd ? 'password' : 'text'"
         :rules="[
@@ -166,7 +166,7 @@ function onReset() {
       <q-input
         filled
         v-model="confirmPassword"
-        label="Подтверждение пароля"
+        label="Подтверждение пароля *"
         lazy-rules
         :type="!openConfirmPwd ? 'password' : 'text'"
         :rules="[
@@ -182,7 +182,7 @@ function onReset() {
         </template>
       </q-input>
 
-      <q-toggle v-model="accept" label="Согласие на регистрацию" />
+      <q-toggle v-model="accept" label="Согласие на регистрацию *" />
 
       <div>
         <q-btn label="Зарегистрироваться" class="full-width" type="submit" color="red" />
