@@ -45,7 +45,6 @@ const props = defineProps({
 <style lang="sass" scoped>
 .course-section-title
   position: relative
-  width: max-content
   margin-inline: auto
   padding-inline: 55px
 

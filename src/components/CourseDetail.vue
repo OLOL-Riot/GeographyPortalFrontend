@@ -43,7 +43,6 @@ const props = defineProps({
 <style lang="sass" scoped>
 .main-title
   position: relative
-  width: max-content
   margin-inline: auto
   padding-inline: 35px
 
