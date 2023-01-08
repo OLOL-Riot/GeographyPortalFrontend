@@ -185,7 +185,7 @@ function onReset() {
       <q-toggle v-model="accept" label="Согласие на регистрацию *" />
 
       <div>
-        <q-btn label="Зарегистрироваться" class="full-width" type="submit" color="red" />
+        <q-btn label="Зарегистрироваться" class="full-width" type="submit" color="primary" />
         <q-btn
           label="Сбросить"
           type="reset"

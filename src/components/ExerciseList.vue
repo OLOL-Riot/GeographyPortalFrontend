@@ -146,7 +146,7 @@ function checkAnsver() {
     <div class="row q-pa-md">
       <q-btn
         class="q-mx-auto"
-        color="primary"
+        color="green"
         label="Отправить тест на проверку"
         @click="checkAnsver()"
         :disable="solutionSent"
