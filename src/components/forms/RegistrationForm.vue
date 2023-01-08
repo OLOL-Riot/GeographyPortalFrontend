@@ -37,7 +37,7 @@ function onSubmit() {
       color: "red-5",
       textColor: "white",
       icon: "warning",
-      message: "You need to accept the license and terms first",
+      message: "Сначала укажите согласие на регистрацию",
     });
   } else {
     openPwd.value = false;
@@ -90,40 +90,40 @@ function onReset() {
 
 <template>
   <q-card class="q-pa-md" style="max-width: 500px; width: 100%">
-    <h4>Registration</h4>
+    <h4>Регистрация</h4>
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md q-mt-md">
       <q-input
         filled
         v-model="firstName"
-        label="Your first name *"
+        label="Имя *"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[(val) => (val && val.length > 0) || 'Пожалуйста, введите что-нибудь']"
       />
 
       <q-input
         filled
         v-model="lastName"
-        label="Your last name *"
+        label="Фамилия *"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[(val) => (val && val.length > 0) || 'Пожалуйста, введите что-нибудь']"
       />
 
       <q-input
         filled
         v-model="login"
-        label="login *"
+        label="Логин *"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[(val) => (val && val.length > 0) || 'Пожалуйста, введите что-нибудь']"
       />
 
       <q-input
         filled
         v-model="email"
-        label="Email *"
+        label="Адрес электронной почты *"
         hint="Your email"
         lazy-rules
         :rules="[
-          (val) => (val && val.length > 0) || 'Please type something',
+          (val) => (val && val.length > 0) || 'Пожалуйста, введите что-нибудь',
           (val) => mailFormat.test(val) || 'Неверный формат почты',
         ]"
       />
@@ -131,17 +131,16 @@ function onReset() {
       <q-input
         filled
         v-model="phoneNumber"
-        label="Phone number *"
-        hint="Your phone number"
+        label="Номер телефона *"
+        hint="С цифрой 8 в начале"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[(val) => (val && val.length > 0) || 'Пожалуйста, введите что-нибудь']"
       />
 
       <q-input
         filled
         v-model="password"
-        label="Password"
-        hint="Your new password"
+        label="Пароль"
         lazy-rules
         :type="!openPwd ? 'password' : 'text'"
         :rules="[
@@ -167,12 +166,11 @@ function onReset() {
       <q-input
         filled
         v-model="confirmPassword"
-        label="Confirm password"
-        hint="Confirm your new password"
+        label="Подтверждение пароля"
         lazy-rules
         :type="!openConfirmPwd ? 'password' : 'text'"
         :rules="[
-          (val) => (val && val == password) || 'Please confirm password',
+          (val) => (val && val == password) || 'Подтвердите пароль',
         ]"
       >
         <template v-slot:append>
@@ -184,12 +182,12 @@ function onReset() {
         </template>
       </q-input>
 
-      <q-toggle v-model="accept" label="I accept the license and terms" />
+      <q-toggle v-model="accept" label="Согласие на регистрацию" />
 
       <div>
-        <q-btn label="Sign Up" class="full-width" type="submit" color="red" />
+        <q-btn label="Зарегистрироваться" class="full-width" type="submit" color="red" />
         <q-btn
-          label="Reset"
+          label="Сбросить"
           type="reset"
           color="red"
           flat
