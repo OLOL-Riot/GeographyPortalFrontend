@@ -68,14 +68,14 @@ function goHomePage() {
         <q-space />
 
         <div class="flex" v-if="!checkAuth">
-          <q-btn stretch flat label="Log In" @click="modalAuth = true" />
+          <q-btn stretch flat label="Авторизация" @click="modalAuth = true" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Sign Up" @click="modalReg = true" />
+          <q-btn stretch flat label="Регистрация" @click="modalReg = true" />
         </div>
         <div class="flex" v-else>
           <q-btn stretch flat :label="username" @click="toAccountPage()" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Log out" @click="exitFromAuth" />
+          <q-btn stretch flat label="Выйти" @click="exitFromAuth" />
         </div>
       </q-toolbar>
     </q-header>
