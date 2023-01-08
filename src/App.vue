@@ -62,7 +62,7 @@ function goHomePage() {
             <img src="@/assets/logo.png" />
           </q-avatar>
 
-          <q-toolbar-title>RL Portal</q-toolbar-title>
+          <q-toolbar-title>RLP</q-toolbar-title>
         </q-btn>
 
         <q-space />
