@@ -23,7 +23,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <q-card class="col-12 course-preview bg-grey-8 column">
+  <q-card class="col-12 course-preview bg-blue-9 column">
     <EditingToolBar
       v-if="isAdministrator()"
       :to-remove="() => onRemove(id)"

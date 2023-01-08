@@ -17,8 +17,6 @@ const props = defineProps({
     <q-card-section>
       <div class="text-h6">{{ title }}</div>
     </q-card-section>
-    <q-card-section class="q-pt-none">
-      {{ content }}
-    </q-card-section>
+    <q-card-section class="q-pt-none" v-html="content"> </q-card-section>
   </q-card-section>
 </template>

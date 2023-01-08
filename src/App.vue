@@ -55,27 +55,27 @@ function goHomePage() {
 
 <template>
   <q-layout view="lhr lpR lFr">
-    <q-header reveal elevated class="bg-red-7 text-white q-px-xl" height-hint="98">
+    <q-header reveal elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn flat @click="goHomePage()">
           <q-avatar>
             <img src="@/assets/logo.png" />
           </q-avatar>
 
-          <q-toolbar-title>RL Portal</q-toolbar-title>
+          <q-toolbar-title>RLP</q-toolbar-title>
         </q-btn>
 
         <q-space />
 
         <div class="flex" v-if="!checkAuth">
-          <q-btn stretch flat label="Log In" @click="modalAuth = true" />
+          <q-btn stretch flat label="Авторизация" @click="modalAuth = true" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Sign Up" @click="modalReg = true" />
+          <q-btn stretch flat label="Регистрация" @click="modalReg = true" />
         </div>
         <div class="flex" v-else>
           <q-btn stretch flat :label="username" @click="toAccountPage()" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Log out" @click="exitFromAuth" />
+          <q-btn stretch flat label="Выйти" @click="exitFromAuth" />
         </div>
       </q-toolbar>
     </q-header>

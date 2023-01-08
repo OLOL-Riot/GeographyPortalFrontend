@@ -102,27 +102,27 @@ function onReset() {
 
 <template>
   <q-card class="q-pa-md" style="max-width: 400px; width: 100%">
-    <h4>Authorization</h4>
+    <h4>Авторизация</h4>
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md q-mt-md">
       <q-input
         filled
         v-model="login"
-        label="login"
+        label="Логин"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[(val) => (val && val.length > 0) || 'Пожалуйста, введите что-нибудь']"
       />
 
       <q-input
         filled
         v-model="password"
-        label="Password"
+        label="Пароль"
         lazy-rules
         type="password"
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[(val) => (val && val.length > 0) || 'Пожалуйста, введите что-нибудь']"
       />
 
       <div>
-        <q-btn label="Log in" class="full-width" type="submit" color="red" />
+        <q-btn label="Авторизоваться" class="full-width" type="submit" color="primary" />
       </div>
     </q-form>
   </q-card>

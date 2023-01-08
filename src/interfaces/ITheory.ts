@@ -1,6 +1,6 @@
 import type { ITheorySections } from "./ITheorySection"
 
-export default interface Itheory {
+export default interface ITheory {
     id: string,
     name: string,
     description: string,

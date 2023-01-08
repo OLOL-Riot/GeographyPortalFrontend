@@ -34,7 +34,7 @@ const props = defineProps({
     <div class="row q-pa-md">
       <q-btn
         class="q-mx-auto"
-        color="green"
+        color="primary"
         label="Перейти к тесту"
         @click="$router.push({ name: 'test', params: { testId: testId } })"
       />
@@ -45,7 +45,6 @@ const props = defineProps({
 <style lang="sass" scoped>
 .course-section-title
   position: relative
-  width: max-content
   margin-inline: auto
   padding-inline: 55px
 
