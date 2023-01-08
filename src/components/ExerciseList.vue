@@ -117,6 +117,7 @@ function checkAnsver() {
   <div class="container">
     <EditingToolBar v-if="isAdministrator()" :to-edit="toEdit" />
     <div class="q-pa-md column justify-center items-center">
+      <h3 class="q-mb-xl">{{ test.name }}</h3>
       <q-card
         class="my-card q-mb-md"
         v-for="exercise in exerciseList"
