@@ -30,13 +30,13 @@ const props = defineProps({
 
 <template>
   <div class="col-md-4 col-12 q-px-sm q-py-md">
-    <q-card class="course-section bg-blue-8">
+    <q-card class="course-section bg-blue-9">
       <EditingToolBar
         v-if="isAdministrator()"
         :to-remove="() => toRemove(id)"
       />
 
-      <q-card-section class="bg-blue-8 text-white">
+      <q-card-section class="bg-blue-9 text-white">
         <EditingToolBar
           v-if="isAdministrator()"
           :to-remove="() => toRemove(id)"
