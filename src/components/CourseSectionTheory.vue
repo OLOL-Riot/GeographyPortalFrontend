@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import EditingToolBar from "./EditingToolBar.vue";
+import { isAdministrator } from "@/roles";
 
 const props = defineProps({
   name: {
@@ -18,7 +19,7 @@ const props = defineProps({
 
 <template>
   <q-card flat bordered class="theory-card">
-    <EditingToolBar :to-edit="toEdit" />
+    <EditingToolBar :to-edit="toEdit" v-if="isAdministrator()" />
     <q-card-section class="q-py-md">
       <div class="text-h5">{{ name }}</div>
     </q-card-section>
