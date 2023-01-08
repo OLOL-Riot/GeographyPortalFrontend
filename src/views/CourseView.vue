@@ -13,7 +13,6 @@ import { QDialog } from "quasar";
 import EditCourseSection from "@/components/forms/EditCourseSection.vue";
 import { isAdministrator } from "@/roles";
 
-
 const $q = useQuasar();
 const route = useRoute();
 const courseId = route.params.courseId as string;
@@ -130,12 +129,7 @@ function removeSection(sectionId: string) {
       :description="course.description"
       :toEdit="() => (editMode = true)"
     >
-      <div
-        class="row"
-        v-if="
-          course.previewCourseSections && course.previewCourseSections.length
-        "
-      >
+      <div class="row">
         <div class="col-12">
           <h3 class="text-h3 q-px-sm q-py-md">Секции курса</h3>
         </div>
@@ -148,8 +142,6 @@ function removeSection(sectionId: string) {
           :to-edit="editSection"
           :to-remove="removeSection"
         />
-      </div>
-      <div v-else class="row">
         <AddCourseSection
           v-if="isAdministrator()"
           :course-id="course.id"
